@@ -1,0 +1,8 @@
+.env
+*.db
+scans/
+
+.venv/
+.window_venv/
+.linux_venv/
+__pycache__/

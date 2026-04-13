@@ -1,0 +1,6 @@
+# LLM backends — uncomment what you need for run.py
+# anthropic          # Claude API
+# openai             # OpenAI API
+# ollama             # Ollama local
+# transformers       # HuggingFace local
+# torch              # Required by transformers

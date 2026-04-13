@@ -1,0 +1,62 @@
+[database]
+path = "thesis.db"
+
+[model]
+backend = ""
+name = ""
+version = ""
+endpoint = ""
+# Host_IP = ""
+# VLLM_Host = "http://10.101.68.83:8001"
+# max_tokens = 2048
+# temperature = 0.0
+# top_p = 1.0
+# seed = 42
+
+[[scans]]
+name = "01-sv-osc-top1000"
+label = "Suite: sV/O/sC top 1000"
+flags = ["-sV", "--version-intensity", "5", "-O", "-sC", "--top-ports", "1000", "-T4"]
+timeout = 600
+
+[[scans]]
+name = "02-sv-intensity1"
+label = "Suite: sV intensity 1"
+flags = ["-sV", "--version-intensity", "1"]
+timeout = 300
+
+[[scans]]
+name = "03-sv-intensity5"
+label = "Suite: sV intensity 5"
+flags = ["-sV", "--version-intensity", "5"]
+timeout = 300
+
+[[scans]]
+name = "04-sv-intensity9"
+label = "Suite: sV intensity 9"
+flags = ["-sV", "--version-intensity", "9"]
+timeout = 300
+
+[[scans]]
+name = "05-dns-sd-udp5353"
+label = "Suite: DNS-SD UDP 5353"
+flags = ["--script", "dns-service-discovery", "-sU", "-p", "5353"]
+timeout = 180
+
+[[scans]]
+name = "06-upnp-udp1900"
+label = "Suite: UPnP UDP 1900"
+flags = ["--script", "upnp-info", "-sU", "-p", "1900"]
+timeout = 180
+
+
+[[truth]]
+ip             = ""
+mac            = ""
+true_vendor    = ""
+true_product   = ""
+true_firmware_version = ""
+accepted_cpes  = []
+rubric_version = "1.0"
+label_status   = ""
+notes          = ""
