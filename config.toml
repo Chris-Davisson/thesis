@@ -2,16 +2,16 @@
 path = "thesis.db"
 
 [model]
-backend = ""
-name = ""
+backend = "ollama"
+name = "deepseek-r1:1.5b"
 version = ""
 endpoint = ""
-# Host_IP = ""
-# VLLM_Host = "http://10.101.68.83:8001"
-# max_tokens = 2048
-# temperature = 0.0
-# top_p = 1.0
-# seed = 42
+Host_IP = "http://localhost:11434"
+VLLM_Host = "http://10.101.68.83:8001"
+max_tokens = 2048
+temperature = 0.0
+top_p = 1.0
+seed = 42
 
 [[scans]]
 name = "01-sv-osc-top1000"
@@ -50,13 +50,31 @@ flags = ["--script", "upnp-info", "-sU", "-p", "1900"]
 timeout = 180
 
 
-[[truth]]
-ip             = ""
-mac            = ""
-true_vendor    = ""
-true_product   = ""
-true_firmware_version = ""
-accepted_cpes  = []
-rubric_version = "1.0"
-label_status   = ""
-notes          = ""
+# Add one [[truth]] block per device. mac is used to resolve device_id.
+# [[truth]]
+# ip             = ""
+# mac            = ""
+# true_vendor    = ""
+# true_product   = ""
+# true_firmware_version = ""
+# accepted_cpes  = []
+# rubric_version = "1.0"
+# label_status   = ""
+# notes          = ""
+
+
+
+[prompt]
+prompt = """You are a cybersecurity analyst. Given nmap scan data for a single network device, identify the device and output CPE 2.3 strings.
+
+Rules:
+- Generate CPEs for hardware (h), OS/firmware (o), and applications (a) you can confidently identify
+- Vendor and product are required — omit a CPE entirely if you cannot identify both with confidence
+- Use * for version if uncertain; do not guess
+- Use * for unknown fields, - for not applicable
+- End your response with exactly one JSON object: {"cpes": ["cpe:2.3:...", ...]}"""
+
+cpe_format_example = """cpe:2.3:<part>:<vendor>:<product>:<version>:<update>:<edition>:<language>:<sw_edition>:<target_sw>:<target_hw>:<other>
+
+Example:
+{"cpes": ["cpe:2.3:h:arris:tg1672g:*:*:*:*:*:*:*:*", "cpe:2.3:o:linux:linux_kernel:3.2:*:*:*:*:*:*:*", "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*"]}"""

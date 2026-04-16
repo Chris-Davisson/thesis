@@ -11,13 +11,14 @@ A research thesis tool that uses LLMs to fingerprint IoT devices from nmap scan 
 Scripts are run manually in sequence. No build step required.
 
 ```bash
-python init.py                          # First time: create DB schema
-python ingest.py <nmap.xml> <device-code>  # Returns device_id and aggregated_input_id
+python init.py                                    # First time: create DB schema
+python ingest.py <nmap.xml> <device-code>         # Prints aggregated_input_id on success
 python truth.py <device-code> <vendor> <product> <firmware> <cpes> ...  # Upsert ground truth
-python setup.py <name> <model> <version> <temperature> <top_p> <seed>   # Returns experiment_id
-python run.py <device_id> <experiment_id> <trial_num>
-python export.py <experiment_id> [device_id]  # Outputs CSV/JSON for external analysis
+python run.py <aggregated_input_id>               # Reads model/prompt from config.toml, writes model_runs row
+python export.py <experiment_id> [device_id]      # (stub) Outputs CSV/JSON for external analysis
 ```
+
+To test a different model or prompt against the same scan, edit `config.toml [model]` and `[prompt]` and re-run `run.py` with the same `aggregated_input_id`.
 
 ## Architecture
 
@@ -26,16 +27,17 @@ python export.py <experiment_id> [device_id]  # Outputs CSV/JSON for external an
 **Pipeline flow:**
 ```
 nmap XML → ingest.py → scan_session + scan_run + aggregated_input records
+                                        ↓ aggregated_input_id
+                       config.toml [model] + [prompt]
                                         ↓
-setup.py → experiment record (references a prompt_id)
-                        ↓               ↓
-                       run.py (fetches prompt from DB by prompt_id)
-                             ↓
-              Single LLM call — prompt instructs reasoning then CPE output in one response
-              Writes one model_run row per trial
-                             ↓
-                       export.py
-                             ↓
+                                     run.py
+                                        ↓
+              Single LLM call — system prompt from config, user message = scan payload
+              Writes one model_runs row (experiment_id/prompt_id NULL for now)
+              Re-run with same ID + different config to compare models/prompts
+                                        ↓
+                                    export.py
+                                        ↓
               Compares model_run outputs vs ground_truth → writes scores rows
               Dumps CSV/JSON for external statistical analysis
 ```
@@ -45,8 +47,8 @@ setup.py → experiment record (references a prompt_id)
 - `scan_runs` — one row per nmap execution; stores `tool_name`, `tool_version`, `exit_code`, `stdout_text`, `stderr_text`, `parsed_data_json`
 - `aggregated_inputs` — consolidated LLM payload; has `variant_name` and `parser_version` to track how the payload was constructed
 - `prompts` — prompts are stored in the DB; each row has `prompt_name`, `prompt_version`, `prompt_text`; no `task_type` needed since there is only one stage
-- `experiments` — experimental conditions: model, version, temperature, top_p, seed, max_tokens, and a `prompt_id` FK; all four model params are intentionally kept — they apply across all three supported backends (Ollama, HuggingFace local, API); `seed` is not supported by the Claude API but is valid for Ollama and HuggingFace runs and should be stored as `NULL` for Claude runs
-- `model_runs` — one row per LLM call; references `aggregated_input_id`, `experiment_id`, `prompt_id`; stores `raw_output_text`, `parsed_output_json`, `status`, `error_text`; model params duplicated here from experiment for immutable record
+- `experiments` — experimental conditions: model, version, temperature, top_p, seed, max_tokens, and a `prompt_id` FK; deferred — not used by run.py yet
+- `model_runs` — one row per LLM call; `aggregated_input_id` is the key FK; `experiment_id`/`prompt_id` are NULL for now; stores `raw_output_text`, `parsed_output_json`, `conversation_history_json`, `status`, `error_text`; model params stored directly here (from config.toml at call time); `seed` stored as NULL for Claude API runs
 - `ground_truth` — manually entered true vendor/product/firmware/CPEs per device; has `rubric_version` and `label_status`
 - `scores` — evaluation results per model_run: `exact_match`, `partial_credit_level`, `predicted_vendor`, `predicted_product`, `predicted_cpes_json`, `scorer_version`, `score_type`
 
@@ -62,10 +64,10 @@ Which tables each script reads from and writes to:
 | `ingest.py` | `devices` (check if device_code exists) | `devices` (if new), `scan_sessions`, `scan_runs`, `aggregated_inputs` |
 | `truth.py` | `devices` (resolve device_code → id) | `ground_truth` (upsert) |
 | `setup.py` | `prompts` (validate prompt_id exists) | `experiments` |
-| `run.py` | `experiments`, `prompts`, `aggregated_inputs` | `model_runs` |
+| `run.py` | `aggregated_inputs` | `model_runs` |
 | `export.py` | `model_runs`, `experiments`, `aggregated_inputs`, `ground_truth`, `devices` | `scores`, CSV/JSON file |
 
-**Note:** `prompts` rows must exist in the DB before `setup.py` is run. No dedicated script exists for loading prompts yet — insert them directly or add a `load_prompt.py`.
+**Note:** `setup.py` and the experiments/prompts layer are deferred. `run.py` currently reads all config from `config.toml` and leaves `experiment_id`/`prompt_id` NULL in `model_runs`.
 
 ## Out of Scope
 

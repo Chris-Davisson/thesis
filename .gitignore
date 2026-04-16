@@ -6,3 +6,9 @@ scans/
 .window_venv/
 .linux_venv/
 __pycache__/
+
+claude.md
+agents.md
+gemini.md
+
+.claude/

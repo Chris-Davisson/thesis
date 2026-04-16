@@ -23,6 +23,10 @@ def main():
     config = load_config()
     entries = config.get("truth", [])
 
+    # TOML [[truth]] → list of dicts; [truth] → single dict. Normalize to list.
+    if isinstance(entries, dict):
+        entries = [entries]
+
     if not entries:
         print("No truth entries found in config.toml")
         sys.exit(0)
