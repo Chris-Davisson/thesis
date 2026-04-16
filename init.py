@@ -178,25 +178,33 @@ SCHEMA = [
         """,
         [],
     ),
-    (
+(
         "scores",
         """
         CREATE TABLE IF NOT EXISTS scores (
-            id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-            model_run_id        INTEGER NOT NULL REFERENCES model_runs(id),
-            ground_truth_id     INTEGER NOT NULL REFERENCES ground_truth(id),
-            score_type          TEXT,
-            exact_match         INTEGER,
-            partial_credit_level REAL,
-            predicted_vendor    TEXT,
-            predicted_product   TEXT,
-            predicted_cpes_json TEXT,
-            score_notes         TEXT,
-            scorer_version      TEXT,
-            created_at          TEXT DEFAULT (datetime('now'))
+            id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+            model_run_id         INTEGER NOT NULL REFERENCES model_runs(id),
+            ground_truth_id      INTEGER NOT NULL REFERENCES ground_truth(id),
+            predicted_cpe        TEXT,
+            matched_accepted_cpe TEXT,
+            part_correct         INTEGER,
+            vendor_correct       INTEGER,
+            product_correct      INTEGER,
+            version_correct      INTEGER,
+            exact_match          INTEGER,
+            cve_lookup_valid     INTEGER,
+            best_match_tier      TEXT,
+            match_score          REAL,
+            predicted_vendor     TEXT,
+            predicted_product    TEXT,
+            score_notes          TEXT,
+            scorer_version       TEXT,
+            created_at           TEXT DEFAULT (datetime('now'))
         )
         """,
-        [],
+        [
+            "CREATE INDEX IF NOT EXISTS idx_scores_model_run_id ON scores(model_run_id)",
+        ],
     ),
 ]
 
@@ -209,7 +217,7 @@ def main():
         print("ERROR: database.path is not set in config.toml")
         sys.exit(1)
 
-    db_path = Path(db_path)
+    db_path = Path(__file__).parent / db_path
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
     con = sqlite3.connect(db_path)

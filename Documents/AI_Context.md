@@ -72,3 +72,29 @@ Which tables each script reads from and writes to:
 ## Out of Scope
 
 The system intentionally excludes: web server, REST API, frontend, live scan execution (handled by external `run_scans.py`), and statistical calculations (done externally on exported data).
+
+
+## Future Work
+
+### Hallucination detection in scoring
+
+The scorer (`scores.py`) currently does not verify that predicted vendor:product
+pairs exist in the official NIST CPE dictionary. A CPE that is structurally
+valid but references a fabricated vendor — e.g., the LLM inventing
+`smart_devices_inc` as a vendor name — currently scores as 0 via the no-match
+path but is not distinguished from a legitimate wrong guess.
+
+To add this:
+
+1. Download the NVD CPE dictionary (https://nvd.nist.gov/products/cpe),
+   ~1.5M entries, refreshed daily.
+2. Index by (vendor, product) tuples.
+3. Add a `hallucinated INTEGER` column to the `scores` table.
+4. In `score_prediction()`, set `hallucinated = 1` when the predicted
+   (vendor, product) pair does not appear in the dictionary.
+
+This distinguishes "wrong but plausible guess" from "fabricated output" —
+an important failure-mode signal for the thesis. Separating these two
+categories means you can report both "accuracy" (how often the model is
+right) and "reliability" (how often the model refuses to make up plausible-
+sounding nonsense when it doesn't know).

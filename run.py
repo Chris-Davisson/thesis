@@ -166,7 +166,7 @@ def build_backend(config: dict) -> InferenceBackend:
             return OllamaBackend(model=name, host=host_ip)
         elif vllm_host:
             # vLLM exposes an OpenAI-compatible API; no model-list check needed
-            return OpenAIBackend(model=name, api_key="EMPTY", endpoint=vllm_host)
+            return OpenAIBackend(model=name, api_key="EMPTY", endpoint=f"{vllm_host.rstrip('/')}/v1")
         else:
             raise ValueError(
                 "config.toml: set model.Host_IP for Ollama or model.VLLM_Host for vLLM"
@@ -215,7 +215,10 @@ def validate_cpe(cpe: str) -> bool:
     if parts[2] not in ("h", "o", "a"):
         return False
     # vendor and product must be non-empty (may be * but not blank)
-    if not parts[3] or not parts[4]:
+# vendor and product must be identified — wildcards defeat the purpose (CVE lookup keys on these fields)
+    if not parts[3] or parts[3] == "*":
+        return False
+    if not parts[4] or parts[4] == "*":
         return False
     return True
 

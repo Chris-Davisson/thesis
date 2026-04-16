@@ -50,17 +50,20 @@ flags = ["--script", "upnp-info", "-sU", "-p", "1900"]
 timeout = 180
 
 
-# Add one [[truth]] block per device. mac is used to resolve device_id.
-# [[truth]]
-# ip             = ""
-# mac            = ""
-# true_vendor    = ""
-# true_product   = ""
-# true_firmware_version = ""
-# accepted_cpes  = []
-# rubric_version = "1.0"
-# label_status   = ""
-# notes          = ""
+[[truth]]
+ip             = "192.168.1.1"
+mac            = "AA:BB:CC:DD:EE:FF"
+true_vendor    = "amazon"
+true_product   = "fire_tv"
+true_firmware_version = "7.2.3.3"
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:amazon:fire_tv:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:amazon:fire_os:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "verified"
+notes          = "Fire TV Stick 4K Max, firmware from About screen"
 
 
 
