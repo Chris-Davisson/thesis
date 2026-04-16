@@ -259,9 +259,7 @@ def main():
     top_p       = config["model"]["top_p"]
     seed        = config["model"]["seed"]
 
-    prompt_text   = config["prompt"]["prompt"]
-    cpe_example   = config["prompt"]["cpe_format_example"]
-    system_prompt = f"{prompt_text}\n\nCPE format:\n{cpe_example}" if cpe_example else prompt_text
+    prompt_id = config["prompt"]["prompt_id"]
 
     agg_input_id = int(sys.argv[1])
     con = get_connection()
@@ -274,6 +272,14 @@ def main():
         sys.exit(1)
 
     scan_payload = row["input_payload_json"]
+
+    cur.execute("SELECT prompt_text, prompt_name, prompt_version FROM prompts WHERE id = ?", (prompt_id,))
+    prompt_row = cur.fetchone()
+    if prompt_row is None:
+        print(f"No prompt found with id={prompt_id}. Run seed_prompts.py first.")
+        sys.exit(1)
+    system_prompt = prompt_row["prompt_text"]
+    print(f"using prompt: {prompt_row['prompt_name']} v{prompt_row['prompt_version']} (id={prompt_id})")
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -311,9 +317,9 @@ def main():
             model_name, model_version, temperature, top_p, max_tokens, seed,
             conversation_history_json, raw_output_text, parsed_output_json,
             started_at, ended_at, status, error_text
-        ) VALUES (?, NULL, NULL, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, NULL, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
-        agg_input_id,
+        agg_input_id, prompt_id,
         ai_name, ai_version, temperature, top_p, max_tokens, effective_seed,
         json.dumps(messages),
         raw_output,
