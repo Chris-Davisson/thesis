@@ -25,15 +25,44 @@ from db import ensure_db, get_connection
 
 PROMPTS = [
     {
-        "name":    "minimal",
+        "name":    "neutral_minimal",
         "version": "1.0",
-        "notes":   "Shortest possible prompt. Baseline for measuring prompt effect.",
-        "text":    """Identify the device from this nmap scan. Output CPE 2.3 strings as JSON: {"cpes": ["cpe:2.3:...", ...]}""",
+        "notes":   "Cell 1 of 2x2: no persona, no structure. Pure task description. Predicted strongest on pure fact retrieval per Hu et al. 2026 (USC PRISM paper).",
+        "text":    """Given nmap scan data for a single network device, output CPE 2.3 strings identifying the device.
+
+End your response with a JSON object: {"cpes": ["cpe:2.3:...", ...]}""",
     },
     {
-        "name":    "structured",
+        "name":    "neutral_structured",
         "version": "1.0",
-        "notes":   "Current production prompt with rules and example. Same as original config.toml.",
+        "notes":   "Cell 2 of 2x2: no persona, structure present. Tests whether format guidance helps independent of persona framing.",
+        "text":    """Given nmap scan data for a single network device, output CPE 2.3 strings identifying the device.
+
+Rules:
+- Generate CPEs for hardware (h), OS/firmware (o), and applications (a) that can be confidently identified
+- Vendor and product are required — omit a CPE entirely if either cannot be identified with confidence
+- Use * for version if uncertain; do not guess
+- Use * for unknown fields, - for not applicable
+- End the response with exactly one JSON object: {"cpes": ["cpe:2.3:...", ...]}
+
+CPE format:
+cpe:2.3:<part>:<vendor>:<product>:<version>:<update>:<edition>:<language>:<sw_edition>:<target_sw>:<target_hw>:<other>
+
+Example:
+{"cpes": ["cpe:2.3:h:arris:tg1672g:*:*:*:*:*:*:*:*", "cpe:2.3:o:linux:linux_kernel:3.2:*:*:*:*:*:*:*", "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*"]}""",
+    },
+    {
+        "name":    "persona_minimal",
+        "version": "1.0",
+        "notes":   "Cell 3 of 2x2: persona present, no structure. Tests whether persona framing alone affects output on a fact-retrieval task.",
+        "text":    """You are a cybersecurity analyst. Given nmap scan data for a single network device, identify the device and output CPE 2.3 strings.
+
+End your response with a JSON object: {"cpes": ["cpe:2.3:...", ...]}""",
+    },
+    {
+        "name":    "persona_structured",
+        "version": "1.0",
+        "notes":   "Cell 4 of 2x2: persona + structure. Control for 'typical' expert-prompting practice. Matches the original config.toml prompt.",
         "text":    """You are a cybersecurity analyst. Given nmap scan data for a single network device, identify the device and output CPE 2.3 strings.
 
 Rules:
@@ -48,33 +77,6 @@ cpe:2.3:<part>:<vendor>:<product>:<version>:<update>:<edition>:<language>:<sw_ed
 
 Example:
 {"cpes": ["cpe:2.3:h:arris:tg1672g:*:*:*:*:*:*:*:*", "cpe:2.3:o:linux:linux_kernel:3.2:*:*:*:*:*:*:*", "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*"]}""",
-    },
-    {
-        "name":    "structured_chain_of_thought",
-        "version": "1.0",
-        "notes":   "Structured prompt that asks the model to reason step-by-step before emitting CPEs.",
-        "text":    """You are a cybersecurity analyst. Given nmap scan data for a single network device, identify the device and output CPE 2.3 strings.
-
-Work through this step by step:
-1. What does the hostname, MAC vendor, and any discovery scripts (mDNS, UPnP) tell you about the device?
-2. What do the open ports and banners suggest about running services and OS?
-3. What can you conclude about the hardware, OS, and applications with high confidence?
-4. For each confident conclusion, emit a CPE.
-
-Rules:
-- Generate CPEs for hardware (h), OS/firmware (o), and applications (a) you can confidently identify
-- Vendor and product are required — omit a CPE entirely if you cannot identify both with confidence
-- Use * for version if uncertain; do not guess
-- End your response with exactly one JSON object: {"cpes": ["cpe:2.3:...", ...]}
-
-CPE format:
-cpe:2.3:<part>:<vendor>:<product>:<version>:<update>:<edition>:<language>:<sw_edition>:<target_sw>:<target_hw>:<other>""",
-    },
-    {
-        "name":    "terse_expert",
-        "version": "1.0",
-        "notes":   "Assumes expert audience, no hand-holding, no examples. Tests whether examples/explanations help or hurt.",
-        "text":    """Emit CPE 2.3 strings for the device. h/o/a. Vendor+product required, version optional. JSON only: {"cpes":[...]}""",
     },
 ]
 
