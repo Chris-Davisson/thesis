@@ -1,6 +1,15 @@
-# LLM backends — uncomment what you need for run.py
-# anthropic          # Claude API
-# openai             # OpenAI API
-# ollama             # Ollama local
-# transformers       # HuggingFace local
-# torch              # Required by transformers
+# Core runtime
+python-dotenv          # .env file loader for API keys
+tomli; python_version < "3.11"  # TOML parser (stdlib tomllib in 3.11+)
+
+# LLM backends — install what you actually use
+ollama                 # Ollama local inference
+openai                 # OpenAI API + vLLM (OpenAI-compatible)
+anthropic              # Claude API
+# transformers         # HuggingFace local inference (uncomment if used)
+# torch                # Required by transformers (uncomment if used)
+
+# Analysis
+# Analysis
+pandas                 # Post-hoc stats on exported data
+openpyxl               # Required by pandas for .xlsx export
