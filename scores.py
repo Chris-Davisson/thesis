@@ -317,7 +317,10 @@ def main():
     else:
         score_model_run(con, args.model_run_id)
 
-    con.commit()
+    try:
+        con.commit()
+    except Exception as e:
+        print(f"Commit failed error: {e}")
     con.close()
     print("\nDone.")
 

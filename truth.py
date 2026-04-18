@@ -105,8 +105,10 @@ def main():
                 ),
             )
             print(f"  INSERT  {device_code} (mac={mac})")
-
-    con.commit()
+    try:
+        con.commit()
+    except Exception as e:
+        print(f"Commit failed error: {e}")
     con.close()
     print("\nDone.")
 

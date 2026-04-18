@@ -10,6 +10,5 @@ anthropic              # Claude API
 # torch                # Required by transformers (uncomment if used)
 
 # Analysis
-# Analysis
 pandas                 # Post-hoc stats on exported data
 openpyxl               # Required by pandas for .xlsx export

@@ -2,16 +2,21 @@
 path = "thesis.db"
 
 [model]
-backend = "ollama"
-name = "deepseek-r1:1.5b"
-version = ""
-endpoint = ""
-Host_IP = "http://localhost:11434"
-VLLM_Host = "http://10.101.68.83:8001"
-max_tokens = 2048
-temperature = 0.0
-top_p = 1.0
-seed = 42
+# backend picks the runtime. Each backend uses only its matching host/endpoint field:
+#   "ollama"      -> ollama_host
+#   "vllm"        -> vllm_host
+#   "huggingface" -> no host (loads model locally via transformers)
+#   "api"         -> api_endpoint (leave empty for Anthropic/OpenAI defaults)
+backend      = "ollama"
+name         = "deepseek-r1:1.5b"
+version      = ""
+ollama_host  = "http://localhost:11434"
+vllm_host    = "http://10.101.68.83:8001"
+api_endpoint = ""
+max_tokens   = 2048
+temperature  = 0.0
+top_p        = 1.0
+seed         = 42
 
 [[scans]]
 name = "01-sv-osc-top1000"

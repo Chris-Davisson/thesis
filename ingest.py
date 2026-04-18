@@ -76,6 +76,7 @@ def parse_nmap_xml(xml_string):
             "vendor":       None,
             "hostname":     None,
             "os_guesses":   [],
+            "os_cpes":      [],
             "services":     [],
             "host_scripts": {},
             "pre_scripts":  pre_scripts,
@@ -115,7 +116,16 @@ def parse_nmap_xml(xml_string):
                 accuracy = osmatch.get("accuracy")
                 if name:
                     device["os_guesses"].append(f"{name} ({accuracy}%)" if accuracy else name)
-
+                # OS-level CPEs live on <osclass> — both as an attribute and as a child element
+                for osclass in osmatch.findall("osclass"):
+                    attr_cpe = osclass.get("cpe")
+                    if attr_cpe and attr_cpe not in device["os_cpes"]:
+                        device["os_cpes"].append(attr_cpe.strip())
+                    for cpe_elem in osclass.findall("cpe"):
+                        if cpe_elem.text:
+                            txt = cpe_elem.text.strip()
+                            if txt and txt not in device["os_cpes"]:
+                                device["os_cpes"].append(txt)
         ports = host.find("ports")
         if ports is not None:
             for port in ports.findall("port"):

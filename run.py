@@ -160,29 +160,34 @@ def build_backend(config: dict) -> InferenceBackend:
     name    = config["model"]["name"]
 
     if backend == "ollama":
-        host_ip   = config["model"]["Host_IP"]
-        vllm_host = config["model"]["VLLM_Host"]
-        if host_ip:
-            return OllamaBackend(model=name, host=host_ip)
-        elif vllm_host:
-            # vLLM exposes an OpenAI-compatible API; no model-list check needed
-            return OpenAIBackend(model=name, api_key="EMPTY", endpoint=f"{vllm_host.rstrip('/')}/v1")
-        else:
-            raise ValueError(
-                "config.toml: set model.Host_IP for Ollama or model.VLLM_Host for vLLM"
-            )
-    elif backend == "huggingface":
+        host = config["model"]["ollama_host"]
+        if not host:
+            raise ValueError("config.toml: backend='ollama' but ollama_host is empty")
+        return OllamaBackend(model=name, host=host)
+
+    if backend == "vllm":
+        host = config["model"]["vllm_host"]
+        if not host:
+            raise ValueError("config.toml: backend='vllm' but vllm_host is empty")
+        # vLLM exposes an OpenAI-compatible API at /v1 — appended here, not in config
+        return OpenAIBackend(model=name, api_key="EMPTY", endpoint=f"{host.rstrip('/')}/v1")
+
+    if backend == "huggingface":
         return HuggingFaceBackend(model=name)
-    elif backend == "api":
+
+    if backend == "api":
+        endpoint = config["model"]["api_endpoint"] or None
         if name.startswith("claude"):
             api_key = os.environ.get("ANTHROPIC_API_KEY", "")
             return AnthropicBackend(model=name, api_key=api_key)
         else:
-            api_key  = os.environ.get("OPENAI_API_KEY", "")
-            endpoint = config["model"]["endpoint"] or None
+            api_key = os.environ.get("OPENAI_API_KEY", "")
             return OpenAIBackend(model=name, api_key=api_key, endpoint=endpoint)
-    else:
-        raise ValueError(f"Unknown backend: {backend!r}. Expected 'ollama' (set Host_IP or VLLM_Host), 'huggingface', or 'api'.")
+
+    raise ValueError(
+        f"Unknown backend: {backend!r}. "
+        f"Expected one of: 'ollama', 'vllm', 'huggingface', 'api'."
+    )
 
 
 def extract_cpe_json(text: str) -> dict | None:
@@ -214,8 +219,7 @@ def validate_cpe(cpe: str) -> bool:
         return False
     if parts[2] not in ("h", "o", "a"):
         return False
-    # vendor and product must be non-empty (may be * but not blank)
-# vendor and product must be identified — wildcards defeat the purpose (CVE lookup keys on these fields)
+    # vendor and product must be identified — wildcards defeat the purpose (CVE lookup keys on these fields)
     if not parts[3] or parts[3] == "*":
         return False
     if not parts[4] or parts[4] == "*":
