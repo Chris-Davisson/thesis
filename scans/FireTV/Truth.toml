@@ -1,0 +1,37 @@
+[[truth]]
+ip             = "192.168.0.109"
+mac            = "28:7E:80:E6:A0:63"
+true_vendor    = "Toshiba"
+true_product   = "Toshiba_50C350KU"
+true_firmware_version = "Fire OS 7.7.1.2"
+accepted_cpes  = [
+    # Hardware — Toshiba 50C350KU Fire TV Edition smart TV
+    { cpe = "cpe:2.3:h:toshiba:fire_tv:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:toshiba:smart_tv:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:fire_tv:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:firetv:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:fire_tv_edition:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:firetv_edition:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:fire_tv_4k:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:amazon:fire_tv_stick:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:toshiba:firetv:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:toshiba:fire_tv_edition:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:toshiba:50c350ku:*:*:*:*:*:*:*:*", tier = "exact" },
+    # Vendor-only fallback — Amazon or Toshiba are both correct vendor identifications
+    { cpe = "cpe:2.3:h:amazon:*:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:h:toshiba:*:*:*:*:*:*:*:*:*", tier = "partial" },
+    # OS — Fire OS 7.7.1.2 (Amazon's Android 9 fork)
+    { cpe = "cpe:2.3:o:amazon:fire_os:7.7.1.2:*:*:*:*:*:*:*", tier = "exact" },
+    { cpe = "cpe:2.3:o:amazon:fire_os:7:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:o:amazon:fire_os:*:*:*:*:*:*:*:*", tier = "partial" },
+    # OS — Fire OS IS Android, so any android-vendored CPE is correct identification
+    { cpe = "cpe:2.3:o:amazon:android:7:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:o:google:android:9:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:o:google:android:7:*:*:*:*:*:*:*:*", tier = "partial" },
+    { cpe = "cpe:2.3:o:google:android:*:*:*:*:*:*:*:*", tier = "partial" },
+    # OS — Android is Linux-based; Linux kernel CPE is correct OS-family identification
+    { cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial" },
+]
+rubric_version = "1.0"
+label_status   = "device-verified"
+notes          = "Physical Toshiba 50C350KU Fire TV Edition smart TV. True OS is Fire OS 7.7.1.2, which is Amazon's fork of Android 9 (Linux-based). Partial credit accepted for any of: amazon:fire_os, amazon:android, google:android (canonical Android vendor), or linux:linux_kernel, because all four correctly identify the OS family at progressively lower specificity. Hardware CPE accepts both toshiba:fire_tv (the marketed brand combo) and amazon:fire_tv_* variants (Amazon owns the Fire TV brand and licenses the Edition program to Toshiba/Insignia/etc.). Motivating example for the thesis (see Chapter 1)."

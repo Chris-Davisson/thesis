@@ -1,0 +1,29 @@
+[[truth]]
+ip             = "10.1.10.92"
+mac            = "20:0B:74:B6:EC:33"
+true_vendor    = "Canon"
+true_product   = "imageCLASS MF753Cdw"
+true_hardware_revision = ""
+true_firmware_version = "2.02"
+accepted_cpes  = [
+    # Hardware — Canon imageCLASS MF753Cdw (also marketed as the MF750C II Series)
+    {cpe = "cpe:2.3:h:canon:imageclass_mf753cdw:-:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:canon:imageclass_mf753cdw:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:canon:mf753cdw:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Hardware — broader Canon imageCLASS / MF750C product line
+    {cpe = "cpe:2.3:h:canon:mf750c:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:canon:imageclass:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:canon:imagerunner:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:canon:laser_printer:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — any Canon hardware identification is the right vendor
+    {cpe = "cpe:2.3:h:canon:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data)
+    {cpe = "cpe:2.3:a:clamav:clamav:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OS — Canon imageCLASS firmware is built on an embedded Linux base
+    # (DryOS predecessor was replaced by Linux for Canon's networked MFPs); partial
+    # credit for any Linux-family OS identification.
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "device-verified"
+notes          = "Physical Canon imageCLASS MF753Cdw color laser MFP. Original Truth listed product as 'MF753CDW2' — corrected to 'imageCLASS MF753Cdw' (Canon's official SKU). HTTP page title 'Remote UI: Login: MF750C II Series: MF750C II Series' confirms this is part of the MF750C II family — the MF753Cdw is the top SKU in that family (other MF750C II SKUs: MF751Cdw, MF752Cdw). Hostname 'Canonf4f9e7' is Canon's standard mDNS naming. arp -a may show '(Unknown)' because MAC OUI 20:0B:74 is registered to 'AzureWave Technology' (the WiFi/Bluetooth module vendor Canon uses inside this printer), not to Canon — Windows arp resolves the OUI database directly, so it shows the module maker rather than the printer brand. TLS cert subject 'Canon Imaging Product' on ports 443/8443 confirms vendor. Open services: 80/443/631/8443 (Canon HTTP/IPP), 515 (LPD), 9100 (PJL/JetDirect raw), 9877/9878 (Canon proprietary, nmap fingerprints these as 'ClamAV' but the match is incidental — Canon uses these ports for BJNP scanner protocol). NVD has no canon:imageclass_mf753cdw CPE entry, so the hardware CPE is aspirational. No firmware-level CPE namespace exists for Canon imageCLASS firmware. Hardware revision left blank (Canon does not publish hw-rev numbers for this line)."

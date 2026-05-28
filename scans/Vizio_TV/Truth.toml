@@ -1,0 +1,25 @@
+[[truth]]
+ip             = "192.168.1.32"
+mac            = "CC:95:D7:36:69:F8"
+true_vendor    = "vizio"
+true_product   = "smart_tv"
+true_firmware_version = ""
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:vizio:smart_tv:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:yahoo:connected_tv:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:2.6:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor + product family — partial credit for any Vizio identification
+    {cpe = "cpe:2.3:h:vizio:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:vizio:tv:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:vizio:smartcast:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Yahoo Connected TV / Yahoo TV Widgets — same platform under multiple names
+    {cpe = "cpe:2.3:a:yahoo:tv_widgets:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:yahoo:smart_tv:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic smart-TV identification — partial credit for correct device class
+    {cpe = "cpe:2.3:h:generic:smart_tv:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "filename-derived"
+notes          = "Shodan iotdb. Vizio smart TV running Yahoo Connected TV platform (ca. 2013-2014 era). Port 8099 SSL cert identifies the Yahoo TV Widgets stack. Linux 2.6/3.x kernel."

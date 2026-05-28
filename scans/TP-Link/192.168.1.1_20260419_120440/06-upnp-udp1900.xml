@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Apr 19 12:05:19 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.1.1_20260419_120440\\06-upnp-udp1900.xml 192.168.1.1 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.1.1_20260419_120440\\06-upnp-udp1900.xml 192.168.1.1" start="1776625519" startstr="Sun Apr 19 12:05:19 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="40:ED:00:AE:13:0C" addrtype="mac" vendor="TP-Link Limited"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776625520" endtime="1776625520"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="40:ED:00:AE:13:0C" addrtype="mac" vendor="TP-Link Limited"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="open" reason="udp-response" reason_ttl="64"/><service name="upnp" method="table" conf="3"/><script id="upnp-info" output="&#xa;  usn: uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf37&#xa;  location: http://192.168.1.1:1900/gatedesc.xml&#xa;  server: Linux/2.6.36, UPnP/1.0, Portable SDK for UPnP devices/1.6.19&#xa;  deviceType: urn:schemas-upnp-org:device:InternetGatewayDevice:1&#xa;  friendlyName: TL-WR841N&#xa;  manufacturer: TP-Link&#xa;  modelDescription: TP-Link Wireless N Router WR841N&#xa;  modelName: TL-WR841N&#xa;  modelNumber: 14.0&#xa;  services: &#xa;    urn:schemas-upnp-org:service:Layer3Forwarding:1&#xa;  devices: &#xa;    uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf39: &#xa;      deviceType: urn:schemas-upnp-org:device:WANConnectionDevice:1&#xa;      friendlyName: TL-WR841N&#xa;      manufacturer: TP-Link&#xa;      modelDescription: TP-Link Wireless N Router WR841N&#xa;      modelName: TL-WR841N&#xa;      modelNumber: 14.0&#xa;      services: &#xa;        urn:schemas-upnp-org:service:WANIPConnection:1&#xa;    uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf38: &#xa;      deviceType: urn:schemas-upnp-org:device:WANDevice:1&#xa;      friendlyName: TL-WR841N&#xa;      manufacturer: TP-Link&#xa;      modelDescription: TP-Link Wireless N Router WR841N&#xa;      modelName: TL-WR841N&#xa;      modelNumber: 14.0&#xa;      services: &#xa;        urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1"><elem key="usn">uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf37</elem>
+<elem key="location">http://192.168.1.1:1900/gatedesc.xml</elem>
+<elem key="server">Linux/2.6.36, UPnP/1.0, Portable SDK for UPnP devices/1.6.19</elem>
+<elem key="deviceType">urn:schemas-upnp-org:device:InternetGatewayDevice:1</elem>
+<elem key="friendlyName">TL-WR841N</elem>
+<elem key="manufacturer">TP-Link</elem>
+<elem key="modelDescription">TP-Link Wireless N Router WR841N</elem>
+<elem key="modelName">TL-WR841N</elem>
+<elem key="modelNumber">14.0</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:Layer3Forwarding:1</elem>
+</table>
+<table key="devices">
+<table key="uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf39">
+<elem key="deviceType">urn:schemas-upnp-org:device:WANConnectionDevice:1</elem>
+<elem key="friendlyName">TL-WR841N</elem>
+<elem key="manufacturer">TP-Link</elem>
+<elem key="modelDescription">TP-Link Wireless N Router WR841N</elem>
+<elem key="modelName">TL-WR841N</elem>
+<elem key="modelNumber">14.0</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:WANIPConnection:1</elem>
+</table>
+</table>
+<table key="uuid:9f0865b3-f5da-4ad5-85b7-7404637fdf38">
+<elem key="deviceType">urn:schemas-upnp-org:device:WANDevice:1</elem>
+<elem key="friendlyName">TL-WR841N</elem>
+<elem key="manufacturer">TP-Link</elem>
+<elem key="modelDescription">TP-Link Wireless N Router WR841N</elem>
+<elem key="modelName">TL-WR841N</elem>
+<elem key="modelNumber">14.0</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1</elem>
+</table>
+</table>
+</table>
+</script></port>
+</ports>
+<times srtt="250" rttvar="4250" to="100000"/>
+</host>
+<runstats><finished time="1776625520" timestr="Sun Apr 19 12:05:20 2026" summary="Nmap done at Sun Apr 19 12:05:20 2026; 1 IP address (1 host up) scanned in 1.00 seconds" elapsed="1.00" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

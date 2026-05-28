@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Fri Apr 24 18:19:59 2026 as: nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.26_20260424_180513\\05-dns-sd-udp5353.xml 192.168.0.26 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.26_20260424_180513\\05-dns-sd-udp5353.xml 192.168.0.26" start="1777079999" startstr="Fri Apr 24 18:19:59 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="5353"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.26" addrtype="ipv4"/>
+<address addr="40:22:D8:95:1D:C6" addrtype="mac" vendor="Espressif"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1777080001" endtime="1777080003"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.26" addrtype="ipv4"/>
+<address addr="40:22:D8:95:1D:C6" addrtype="mac" vendor="Espressif"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="5353"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="zeroconf" method="table" conf="3"/></port>
+</ports>
+<times srtt="71000" rttvar="71000" to="355000"/>
+</host>
+<runstats><finished time="1777080003" timestr="Fri Apr 24 18:20:03 2026" summary="Nmap done at Fri Apr 24 18:20:03 2026; 1 IP address (1 host up) scanned in 3.86 seconds" elapsed="3.86" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

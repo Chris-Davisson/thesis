@@ -1,0 +1,23 @@
+[[truth]]
+ip             = "192.168.1.56"
+mac            = "9C:E6:35:30:24:C5"
+true_vendor    = "nintendo"
+true_product   = "wii_u"
+true_firmware_version = ""
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:nintendo:wii_u:*:*:*:*:*:*:*:*", tier = "exact"},
+    # Vendor-only fallback — any nintendo-vendored CPE is the right vendor
+    {cpe = "cpe:2.3:h:nintendo:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Adjacent products in the Nintendo console family — partial credit because
+    # vendor + console-class identification is correct even if model is wrong
+    {cpe = "cpe:2.3:h:nintendo:wii:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:nintendo:gamecube:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OS family — Wii U runs a custom IBM PowerPC OS ("Cafe OS"); not Linux,
+    # not Android. Any OS guess that names a generic embedded/RTOS family is
+    # closer than wrong-vendor-OS but still substantively incorrect, so we do
+    # NOT add Linux/Windows partials here. Wii_u_firmware is the canonical OS CPE.
+    {cpe = "cpe:2.3:o:nintendo:wii_u_firmware:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "filename-derived"
+notes          = "Shodan iotdb. Nintendo Wii U. WARNING: scan contains no identifying data beyond MAC vendor 'Nintendo Co.' — no open ports, no OS fingerprint. Useful for testing pipeline behavior on signal-poor scans; NOT appropriate for thesis accuracy measurement."

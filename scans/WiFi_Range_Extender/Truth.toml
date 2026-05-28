@@ -1,0 +1,23 @@
+[[truth]]
+ip             = "10.10.10.254"
+mac            = "1C:BF:CE:E9:67:8E"
+true_vendor    = "Shenzhen Fenvi Technology Co"
+true_product   = "WiFi Repeater"
+true_firmware_version = "unknown"
+accepted_cpes  = [
+    {cpe = "cpe:2.3:o:windriver:vxworks:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:windriver:vxworks:6:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:windriver:vxworks:5:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic WiFi extender / repeater hardware family — partial credit for
+    # correct device-class identification even with no vendor signal.
+    {cpe = "cpe:2.3:h:generic:wifi_extender:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_repeater:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux/embedded fallback — many low-end Chinese repeaters run a stripped
+    # MIPS Linux on a Realtek SoC; the model can't disambiguate VxWorks vs
+    # Linux from this scan, so partial credit for either embedded-OS family.
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:realtek:rtl8196_firmware:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "vendor-derived"
+notes          = "Whitelabel VxWorks-based WiFi extender sourced from Temu. No NVD CPE exists for Shenzhen Fenvi or for generic wifi repeater/extender products. Device exposes only telnet (port 23, 'Login as:' prompt, no vendor banner) and HTTP (port 80, title 'Wi-Fi Extender', no Server header). mDNS (5353) and SSDP (1900) both closed. Firmware version not recoverable from network interface and not exposed in admin UI. MAC OUI 1C:BF:CE is Shenzhen Century Xinyang Technology — likely the ODM manufacturing for the Fenvi brand, a common Chinese-market arrangement where a single OEM whitelabels across many retail brands. The only CPE-mappable signal is nmap's OS fingerprint (VxWorks, accuracy 100), which is partial credit at best since it identifies the RTOS, not the device. This entry represents a realistic negative-case ground truth: a device where CPE-level identification is genuinely infeasible from network signals alone."

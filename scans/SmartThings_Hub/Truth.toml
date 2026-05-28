@@ -1,0 +1,26 @@
+[[truth]]
+ip             = "10.10.10.50"
+mac            = "D0:52:A8:07:10:5F"
+true_vendor    = "samsung"
+true_product   = "smartthings_hub"
+true_firmware_version = ""
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:samsung:smartthings_hub:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:samsung:smartthings:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:physical_graph:smartthings_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:physical_graph:smartthings:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Hardware variants — V1 was made by Physical Graph pre-Samsung acquisition
+    {cpe = "cpe:2.3:h:samsung:smartthings_hub_v1:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:samsung:smartthings_hub_v2:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:samsung:smartthings_hub_v3:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:smartthings:hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — Samsung is the current canonical vendor
+    {cpe = "cpe:2.3:h:samsung:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic smart-home hub identification — partial credit for device class
+    {cpe = "cpe:2.3:h:generic:smart_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:zigbee_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "filename-derived"
+notes          = "Shodan iotdb. SmartThings Hub V1 (Physical Graph, pre-Samsung acquisition). OS is custom Linux. Scan itself is signal-poor: only telnet and port 39500 open."

@@ -1,0 +1,39 @@
+[[truth]]
+ip             = "192.168.0.1"
+mac            = "40:2B:50:D8:75:1B"
+true_vendor    = "Arris"
+true_product   = "DG6450"
+true_firmware_version = "01.04.086.06.02.NCS"
+accepted_cpes  = [
+    # Hardware — ARRIS Touchstone DG6450 cable gateway
+    {cpe = "cpe:2.3:h:arris:dg6450:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:commscope:dg6450:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:arris:touchstone_dg6450:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Firmware — 01.04.086.06.02.NCS
+    {cpe = "cpe:2.3:o:arris:dg6450_firmware:01.04.086.06.02:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:arris:dg6450_firmware:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:commscope:dg6450_firmware:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OS/Kernel — Linux (nmap fingerprint is a broad 3.2–4.14 range, can't pin a version)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data — lighttpd reported with no version)
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*", tier = "exact"},
+    # Hardware — broader ARRIS / CommScope cable-gateway family
+    {cpe = "cpe:2.3:h:arris:touchstone:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:arris:cable_modem:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:arris:cable_gateway:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:commscope:touchstone:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:commscope:dg6450:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — both arris and commscope appear in NVD post-2019
+    {cpe = "cpe:2.3:h:arris:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:commscope:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic device class — DOCSIS cable modem / WiFi router combo
+    {cpe = "cpe:2.3:h:generic:cable_modem:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_router:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux kernel version variants (nmap reported 3.2-4.14 range; Broadcom
+    # embedded Linux is the typical platform for ARRIS Touchstone hardware)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3.2:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device, ARRIS Touchstone DG6450 DOCSIS 3.0 cable gateway (integrated modem + router + WiFi). Firmware 01.04.086.06.02.NCS is an ARRIS/CommScope release — the .NCS suffix denotes the carrier/ISP branch. MAC 40:2B:50:D8:75:1B OUI is CommScope, which acquired ARRIS in April 2019; NVD CPE entries exist under both 'arris' and 'commscope' vendor forms (older devices typically under arris, post-acquisition firmware sometimes under commscope). Port 443 TLS cert's commonName 0000A0720CB7 is the device's own MAC-derived identifier, and organizationName 'ARRIS Group, Inc.' with issuer 'HWROB Device Sub-CA 9' is strong confirmation of vendor + product family. nmap OS fingerprint 'Linux 3.2 - 4.14' is a wide range (Broadcom-based embedded Linux is typical for this hardware) — no specific kernel version pin possible, so only the unversioned linux_kernel CPE gets partial credit. lighttpd is reported by nmap without a version string, so only the unversioned lighttpd CPE is accepted. The DG6450 hardware CPE may not exist in NVD (CPE entries for ARRIS cable gateways are spotty), so hardware CPE is aspirational; broader product-line match under the 'touchstone' family partial-credits identification."

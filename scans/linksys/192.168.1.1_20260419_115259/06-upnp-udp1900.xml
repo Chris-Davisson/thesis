@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Apr 19 11:54:16 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.1.1_20260419_115259\\06-upnp-udp1900.xml 192.168.1.1 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.1.1_20260419_115259\\06-upnp-udp1900.xml 192.168.1.1" start="1776624856" startstr="Sun Apr 19 11:54:16 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="00:1E:E5:31:BB:15" addrtype="mac" vendor="Cisco-Linksys"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776624857" endtime="1776624861"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.1" addrtype="ipv4"/>
+<address addr="00:1E:E5:31:BB:15" addrtype="mac" vendor="Cisco-Linksys"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="open" reason="script-set" reason_ttl="0"/><service name="upnp" method="table" conf="3"/><script id="upnp-info" output="&#xa;  usn: uuid:13814000-1dd2-11b2-9fff-001ee531bb15&#xa;  location: http://192.168.1.1:2869/IGatewayDeviceDescDoc&#xa;  server: VxWorks/5.4.2 UPnP/1.0 iGateway/1.1&#xa;  deviceType: urn:schemas-upnp-org:device:InternetGatewayDevice:1&#xa;  friendlyName: Linksys WRT54GS&#xa;  manufacturer: Linksys Inc.&#xa;  modelDescription: WRT54GS&#xa;  modelName: WRT54GS&#xa;  modelNumber: 7.2.03&#xa;  services: &#xa;    urn:schemas-upnp-org:service:Layer3Forwarding:1&#xa;  devices: &#xa;    uuid:33814000-1dd2-11b2-9fff-001ee531bb15: &#xa;      deviceType: urn:schemas-upnp-org:device:WANConnectionDevice:1&#xa;      friendlyName: WANConnectionDevice1&#xa;      manufacturer: Linksys Inc.&#xa;      modelDescription: WRT54GS&#xa;      modelName: WRT54GS&#xa;      modelNumber: 7.2.03&#xa;      services: &#xa;        urn:schemas-upnp-org:service:WANEthernetLinkConfig:1&#xa;        urn:schemas-upnp-org:service:WANIPConnection:1&#xa;    uuid:23814000-1dd2-11b2-9fff-001ee531bb15: &#xa;      deviceType: urn:schemas-upnp-org:device:WANDevice:1&#xa;      friendlyName: WANDevice&#xa;      manufacturer: Linksys Inc.&#xa;      modelDescription: WRT54GS&#xa;      modelName: WRT54GS&#xa;      modelNumber: 7.2.03&#xa;      services: &#xa;        urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1"><elem key="usn">uuid:13814000-1dd2-11b2-9fff-001ee531bb15</elem>
+<elem key="location">http://192.168.1.1:2869/IGatewayDeviceDescDoc</elem>
+<elem key="server">VxWorks/5.4.2 UPnP/1.0 iGateway/1.1</elem>
+<elem key="deviceType">urn:schemas-upnp-org:device:InternetGatewayDevice:1</elem>
+<elem key="friendlyName">Linksys WRT54GS</elem>
+<elem key="manufacturer">Linksys Inc.</elem>
+<elem key="modelDescription">WRT54GS</elem>
+<elem key="modelName">WRT54GS</elem>
+<elem key="modelNumber">7.2.03</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:Layer3Forwarding:1</elem>
+</table>
+<table key="devices">
+<table key="uuid:33814000-1dd2-11b2-9fff-001ee531bb15">
+<elem key="deviceType">urn:schemas-upnp-org:device:WANConnectionDevice:1</elem>
+<elem key="friendlyName">WANConnectionDevice1</elem>
+<elem key="manufacturer">Linksys Inc.</elem>
+<elem key="modelDescription">WRT54GS</elem>
+<elem key="modelName">WRT54GS</elem>
+<elem key="modelNumber">7.2.03</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:WANEthernetLinkConfig:1</elem>
+<elem>urn:schemas-upnp-org:service:WANIPConnection:1</elem>
+</table>
+</table>
+<table key="uuid:23814000-1dd2-11b2-9fff-001ee531bb15">
+<elem key="deviceType">urn:schemas-upnp-org:device:WANDevice:1</elem>
+<elem key="friendlyName">WANDevice</elem>
+<elem key="manufacturer">Linksys Inc.</elem>
+<elem key="modelDescription">WRT54GS</elem>
+<elem key="modelName">WRT54GS</elem>
+<elem key="modelNumber">7.2.03</elem>
+<table key="services">
+<elem>urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1</elem>
+</table>
+</table>
+</table>
+</script></port>
+</ports>
+<times srtt="1000" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1776624861" timestr="Sun Apr 19 11:54:21 2026" summary="Nmap done at Sun Apr 19 11:54:21 2026; 1 IP address (1 host up) scanned in 4.41 seconds" elapsed="4.41" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,42 @@
+[[truth]]
+ip             = "192.168.11.1"
+mac            = "26:C9:2B:9E:9D:D7"
+true_vendor    = ""
+true_product   = ""
+true_hardware_revision = ""
+true_firmware_version = ""
+accepted_cpes  = [
+    # OS — OpenWrt Chaos Calmer 15.05 / Designated Driver (nmap fingerprint, accuracy 100)
+    {cpe = "cpe:2.3:o:openwrt:openwrt:15.05:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Kernel — Linux 3.18 (Chaos Calmer) or 4.1/4.4 (Designated Driver) — fingerprint cannot disambiguate
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3.18:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4.1:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data)
+    {cpe = "cpe:2.3:a:matt_johnston:dropbear_ssh_server:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:dropbear_ssh:dropbear_ssh:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:busybox:busybox:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:nlnetlabs:unbound:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:1.4.32:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*", tier = "exact"},
+    # OpenWrt version variants — Chaos Calmer 15.05 vs Designated Driver
+    {cpe = "cpe:2.3:o:openwrt:openwrt:designated_driver:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:chaos_calmer:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:15:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux kernel version variants
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4.4:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OpenSSH (BSD-style fork — Dropbear is OpenSSH-protocol compatible)
+    {cpe = "cpe:2.3:a:openbsd:openssh:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic device class — WiFi access point in AP mode
+    {cpe = "cpe:2.3:h:generic:wifi_access_point:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_extender:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_repeater:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Embedded-router-OS family fallback
+    {cpe = "cpe:2.3:o:dd-wrt:dd-wrt:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device in AP (access point) mode. Truth.toml originally listed IP 192.168.0.1 — corrected to actual scan IP 192.168.11.1 (the device's LAN-side IP in AP mode). Hostname 'Srepeater.lan' (Smart Repeater). MAC 26:C9:2B:9E:9D:D7 has the locally-administered bit set (second nibble = 6 → 0010, U/L bit on), so the OUI is not registered to any vendor — the device generates a random MAC, common in cheap Chinese OpenWrt-based repeaters. Same physical hardware as WiFi_Repeater_Router_Mode (MAC differs by 1: ...D6 vs ...D7, the distinct LAN/WLAN interface) and WiFi_Repeater_Repeater_Mode. Open services: 22 (Dropbear SSH), 23 (BusyBox telnetd), 53 (Unbound DNS), 80 (lighttpd 1.4.32, no page title), 81 (no banner). nmap OS fingerprint is an exact 100% match on 'OpenWrt Chaos Calmer 15.05 (Linux 3.18) or Designated Driver (Linux 4.1 or 4.4)' — both branches share a fingerprint, so the kernel version cannot be pinned. lighttpd 1.4.32 (Sept 2013 release) gives an exact version-pinned application CPE. Fields left blank: true_vendor, true_product, true_hardware_revision, true_firmware_version (the device exposes no vendor/product banner; firmware version not in HTTP headers or admin UI title; would need the physical label or admin-UI login)."

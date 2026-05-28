@@ -1,0 +1,25 @@
+[[truth]]
+ip             = "192.168.1.60"
+mac            = "B4:79:A7:1A:7D:9E"
+true_vendor    = "wink"
+true_product   = "hub"
+true_firmware_version = ""
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:wink:hub:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:quirky:wink_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:quirky:hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:wink:hub_2:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:1.4.35:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:2.6:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback
+    {cpe = "cpe:2.3:h:wink:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic smart-home hub identification — partial credit for device class
+    {cpe = "cpe:2.3:h:generic:smart_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:zigbee_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:zwave_hub:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "filename-derived"
+notes          = "Shodan iotdb. Wink Hub (1st gen, made by Quirky). MAC vendor 'Samsung Electro Mechanics' reflects the radio module, not the device maker. lighttpd 1.4.35 on port 80 is solid service-level signal. Linux 2.6 kernel."

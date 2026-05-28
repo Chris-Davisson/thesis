@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Apr 19 13:28:47 2026 as: nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\10.10.10.254_20260419_132049\\05-dns-sd-udp5353.xml 10.10.10.254 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\10.10.10.254_20260419_132049\\05-dns-sd-udp5353.xml 10.10.10.254" start="1776630527" startstr="Sun Apr 19 13:28:47 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="5353"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.10.254" addrtype="ipv4"/>
+<address addr="1C:BF:CE:E9:67:8E" addrtype="mac" vendor="Shenzhen Century Xinyang Technology"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776630532" endtime="1776630532"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.10.254" addrtype="ipv4"/>
+<address addr="1C:BF:CE:E9:67:8E" addrtype="mac" vendor="Shenzhen Century Xinyang Technology"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="5353"><state state="closed" reason="port-unreach" reason_ttl="64"/><service name="zeroconf" method="table" conf="3"/></port>
+</ports>
+<times srtt="7000" rttvar="9750" to="100000"/>
+</host>
+<runstats><finished time="1776630532" timestr="Sun Apr 19 13:28:52 2026" summary="Nmap done at Sun Apr 19 13:28:52 2026; 1 IP address (1 host up) scanned in 5.05 seconds" elapsed="5.05" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

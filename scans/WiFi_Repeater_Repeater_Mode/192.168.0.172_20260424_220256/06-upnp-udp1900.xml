@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Fri Apr 24 22:12:40 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.172_20260424_220256\\06-upnp-udp1900.xml 192.168.0.172 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.172_20260424_220256\\06-upnp-udp1900.xml 192.168.0.172" start="1777093960" startstr="Fri Apr 24 22:12:40 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="192.168.0.172" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1777093961" endtime="1777093961"><status state="up" reason="echo-reply" reason_ttl="64"/>
+<address addr="192.168.0.172" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="closed" reason="port-unreach" reason_ttl="64"/><service name="upnp" method="table" conf="3"/></port>
+</ports>
+<times srtt="1125" rttvar="4000" to="100000"/>
+</host>
+<runstats><finished time="1777093961" timestr="Fri Apr 24 22:12:41 2026" summary="Nmap done at Fri Apr 24 22:12:41 2026; 1 IP address (1 host up) scanned in 1.08 seconds" elapsed="1.08" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

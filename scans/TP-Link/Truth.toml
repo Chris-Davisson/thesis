@@ -1,0 +1,25 @@
+[[truth]]
+ip             = "192.168.1.1"
+mac            = "40:ED:00:AE:13:0C"
+true_vendor    = "TP-Link"
+true_product   = "WR841N"
+true_hardware_revision = "14"
+true_firmware_version = "0.9.1 4.19 v0348.0 Build 220816 Rel.43928n"
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:tp-link:wr841n:14:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:tp-link:wr841n:-:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:tp-link:wr841n:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:tp-link:wr841n_firmware:-:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:tp-link:tl-wr841n:-:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:tp-link:tl-wr841n_firmware:0.9.1_4.16:*:*:*:*:*:*:*", tier = "partial"},
+    # OS — stock TP-Link firmware on WR841N v14 is built on the Realtek RTL819x
+    # SDK using a Linux kernel; partial credit for any Linux-family OS guess.
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:2.6:*:*:*:*:*:*:*", tier = "partial"},
+    # OpenWrt is the canonical alternative-firmware family for this hardware
+    # line; partial credit for getting the embedded-router-OS family right.
+    {cpe = "cpe:2.3:o:openwrt:openwrt:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device, hardware revision v14 (per label: TL-WR841N v14 00000014). Firmware 0.9.1 4.19 Build 220816 is an August 2022 release for v14 hardware. NVD has a version-specific hardware CPE (h:tp-link:wr841n:14) that exactly matches this hardware revision — rare for this dataset. No NVD firmware CPE exists for 0.9.1 4.19 specifically; the closest is tl-wr841n_firmware:0.9.1_4.16 (v9 hardware, partial credit for convention match). Second MAC at 40:ED:00:AE:13:0D is the WLAN interface (LAN on 0C). OUI 40:ED:00 is TP-Link. TP-Link also catalogs this product as TL-WR841N (the 'TL-' prefix), so tl-wr841n CPEs get partial credit for correct identification under alternate vendor naming."

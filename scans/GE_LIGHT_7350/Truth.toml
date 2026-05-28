@@ -1,0 +1,27 @@
+[[truth]]
+ip             = "192.168.0.162"
+mac            = "34:13:43:4B:73:50"
+true_vendor    = "Cync"
+true_product   = "Full Color Smart Bulb (A19) (3in1)"
+true_hardware_revision = ""
+true_firmware_version = "1.0.222"
+accepted_cpes  = [
+    # OS — lwIP TCP/IP stack (nmap fingerprint accuracy 100; fingerprint label includes 'Lovebox' and 'M5Stack M5GO' — both lwIP-based ESP devices)
+    {cpe = "cpe:2.3:a:lwip_project:lwip:2:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:lwip_project:lwip:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor — Cync is the current brand; lineage is GE Lighting → Savant
+    {cpe = "cpe:2.3:h:cync:smart_bulb:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:cync:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:savant:cync:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:savant:smart_bulb:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:ge_lighting:smart_bulb:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:ge_lighting:cync:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:ge:c_by_ge:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Hardware — ESP32 SoC (confirmed via lwIP 2.1-2.2 fingerprint matching ESP devices)
+    {cpe = "cpe:2.3:h:espressif:esp32:*:*:*:*:*:*:*:*", tier = "partial"},
+    # RTOS family — ESP32-based smart bulbs typically run FreeRTOS or ESP-IDF
+    {cpe = "cpe:2.3:o:amazon:freertos:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device, connects to Cync app. Cync is the Savant-owned brand (formerly GE C by GE / GE Lighting smart products) — MAC OUI 34:13:43 is registered to 'GE Lighting' which corroborates the brand lineage; nmap reports vendor='GE Lighting' from this OUI even though current product packaging is 'Cync'. Bulb model labeled 7350 (per scan dir name) is the 'Full Color Smart Bulb A19 (3-in-1)' SKU (white-tunable + RGB + dimming). nmap OS fingerprint is an exact 100% match on lwIP 2.1.0-2.2.0, consistent with an ESP32-based smart bulb. All TCP top-1000 ports closed; mDNS (5353) and UPnP (1900) closed — Cync uses Bluetooth + cloud (and Matter on newer firmware) rather than local IP service discovery, so no service-level CPEs are derivable. No NVD CPE namespace exists for Cync, GE Lighting smart bulbs, or Savant consumer products. Field left blank: true_hardware_revision (no public hardware-rev field for this SKU). Firmware 1.0.222 was read from the Cync mobile app — not visible on the network."

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Tue Apr 21 17:54:50 2026 as: nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.109_20260421_175406\\05-dns-sd-udp5353.xml 192.168.0.109 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.109_20260421_175406\\05-dns-sd-udp5353.xml 192.168.0.109" start="1776819290" startstr="Tue Apr 21 17:54:50 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="5353"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.109" addrtype="ipv4"/>
+<address addr="28:7E:80:E6:A0:63" addrtype="mac" vendor="Hui Zhou Gaoshengda Technology"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776819291" endtime="1776819291"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.109" addrtype="ipv4"/>
+<address addr="28:7E:80:E6:A0:63" addrtype="mac" vendor="Hui Zhou Gaoshengda Technology"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="5353"><state state="open" reason="udp-response" reason_ttl="64"/><service name="zeroconf" method="table" conf="3"/><script id="dns-service-discovery" output="&#xa;  5550/sub T35: &#xa;    ipv4: 192.168.0.109&#xa;    ipv6: fe80::2a7e:80ff:fee6:a063&#xa;    name: BE3933BBBD713B65._matterd._udp.local&#xa;    hostname: 287E80E6A063&#xa;    TXT: &#xa;      VP=65521+32769&#xa;      DT=35&#xa;      DN=Tiffany&apos;s TV&#xa;      CP=1&#xa;  5550/udp matterd: &#xa;    ipv4: 192.168.0.109&#xa;    ipv6: fe80::2a7e:80ff:fee6:a063&#xa;    name: BE3933BBBD713B65&#xa;    hostname: 287E80E6A063&#xa;    TXT: &#xa;      VP=65521+32769&#xa;      DT=35&#xa;      DN=Tiffany&apos;s TV&#xa;      CP=1&#xa;  5550/sub V65521: &#xa;    ipv4: 192.168.0.109&#xa;    ipv6: fe80::2a7e:80ff:fee6:a063&#xa;    name: BE3933BBBD713B65._matterd._udp.local&#xa;    hostname: 287E80E6A063&#xa;    TXT: &#xa;      VP=65521+32769&#xa;      DT=35&#xa;      DN=Tiffany&apos;s TV&#xa;      CP=1"><table key="5550/sub T35">
+<elem key="ipv4">192.168.0.109</elem>
+<elem key="ipv6">fe80::2a7e:80ff:fee6:a063</elem>
+<elem key="name">BE3933BBBD713B65._matterd._udp.local</elem>
+<elem key="hostname">287E80E6A063</elem>
+<table key="TXT">
+<elem>VP=65521+32769</elem>
+<elem>DT=35</elem>
+<elem>DN=Tiffany&apos;s TV</elem>
+<elem>CP=1</elem>
+</table>
+</table>
+<table key="5550/udp matterd">
+<elem key="ipv4">192.168.0.109</elem>
+<elem key="ipv6">fe80::2a7e:80ff:fee6:a063</elem>
+<elem key="name">BE3933BBBD713B65</elem>
+<elem key="hostname">287E80E6A063</elem>
+<table key="TXT">
+<elem>VP=65521+32769</elem>
+<elem>DT=35</elem>
+<elem>DN=Tiffany&apos;s TV</elem>
+<elem>CP=1</elem>
+</table>
+</table>
+<table key="5550/sub V65521">
+<elem key="ipv4">192.168.0.109</elem>
+<elem key="ipv6">fe80::2a7e:80ff:fee6:a063</elem>
+<elem key="name">BE3933BBBD713B65._matterd._udp.local</elem>
+<elem key="hostname">287E80E6A063</elem>
+<table key="TXT">
+<elem>VP=65521+32769</elem>
+<elem>DT=35</elem>
+<elem>DN=Tiffany&apos;s TV</elem>
+<elem>CP=1</elem>
+</table>
+</table>
+</script></port>
+</ports>
+<times srtt="56500" rttvar="63000" to="308500"/>
+</host>
+<runstats><finished time="1776819291" timestr="Tue Apr 21 17:54:51 2026" summary="Nmap done at Tue Apr 21 17:54:51 2026; 1 IP address (1 host up) scanned in 1.12 seconds" elapsed="1.12" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

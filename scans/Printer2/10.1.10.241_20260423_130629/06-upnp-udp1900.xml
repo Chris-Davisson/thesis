@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///opt/homebrew/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.99 scan initiated Thu Apr 23 13:07:37 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX /Users/christopherdavisson/Downloads/thesis-master/scans/10.1.10.241_20260423_130629/06-upnp-udp1900.xml 10.1.10.241 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX /Users/christopherdavisson/Downloads/thesis-master/scans/10.1.10.241_20260423_130629/06-upnp-udp1900.xml 10.1.10.241" start="1776974857" startstr="Thu Apr 23 13:07:37 2026" version="7.99" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.1.10.241" addrtype="ipv4"/>
+<address addr="7C:57:58:2B:63:BC" addrtype="mac" vendor="HP"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776974857" endtime="1776974857"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.1.10.241" addrtype="ipv4"/>
+<address addr="7C:57:58:2B:63:BC" addrtype="mac" vendor="HP"/>
+<hostnames>
+<hostname name="HP2B63BB" type="PTR"/>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="closed" reason="port-unreach" reason_ttl="64"/><service name="upnp" method="table" conf="3"/></port>
+</ports>
+<times srtt="121887" rttvar="137914" to="673543"/>
+</host>
+<runstats><finished time="1776974857" timestr="Thu Apr 23 13:07:37 2026" summary="Nmap done at Thu Apr 23 13:07:37 2026; 1 IP address (1 host up) scanned in 0.28 seconds" elapsed="0.28" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

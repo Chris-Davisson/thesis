@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Fri Apr 24 20:17:41 2026 as: nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.162_20260424_201625\\05-dns-sd-udp5353.xml 192.168.0.162 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script dns-service-discovery -sU -p 5353 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.162_20260424_201625\\05-dns-sd-udp5353.xml 192.168.0.162" start="1777087061" startstr="Fri Apr 24 20:17:41 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="5353"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.162" addrtype="ipv4"/>
+<address addr="34:13:43:4B:73:50" addrtype="mac" vendor="GE Lighting"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1777087063" endtime="1777087063"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.162" addrtype="ipv4"/>
+<address addr="34:13:43:4B:73:50" addrtype="mac" vendor="GE Lighting"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="5353"><state state="closed" reason="port-unreach" reason_ttl="255"/><service name="zeroconf" method="table" conf="3"/></port>
+</ports>
+<times srtt="49500" rttvar="44000" to="225500"/>
+</host>
+<runstats><finished time="1777087063" timestr="Fri Apr 24 20:17:43 2026" summary="Nmap done at Fri Apr 24 20:17:43 2026; 1 IP address (1 host up) scanned in 2.43 seconds" elapsed="2.43" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,17 @@
+# Core runtime
+python-dotenv          # .env file loader for API keys
+tomli; python_version < "3.11"  # TOML parser (stdlib tomllib in 3.11+)
+pymongo                # MongoDB driver
+
+# LLM backends — install what you actually use
+ollama                 # Ollama local inference
+openai                 # OpenAI API + vLLM (OpenAI-compatible)
+google-genai                 # Google API
+# transformers         # HuggingFace local inference (uncomment if used)
+# torch                # Required by transformers (uncomment if used)
+
+# Analysis
+pandas                 # Post-hoc stats on exported data
+openpyxl               # Required by pandas for .xlsx export
+matplotlib             # Plotting for analyze.py
+seaborn                # Statistical visualisations for analyze.py

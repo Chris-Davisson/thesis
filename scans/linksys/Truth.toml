@@ -1,0 +1,26 @@
+[[truth]]
+ip             = "192.168.1.1"
+mac            = "00:1E:E5:31:BB:15"
+true_vendor    = "Linksys"
+true_product   = "WRT54GS"
+true_firmware_version = "7.2.03"
+accepted_cpes  = [
+    {cpe = "cpe:2.3:h:linksys:wrt54gs:-:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:linksys:wrt54gs:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:cisco:wrt54gs:-:*:*:*:*:*:*:*", tier = "partial"},
+    # OS — Linksys WRT54GS v7.x runs VxWorks (per notes; v5+ moved off Linux)
+    {cpe = "cpe:2.3:o:windriver:vxworks:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:windriver:vxworks:5:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — Linksys/Cisco identification is correct family
+    {cpe = "cpe:2.3:h:linksys:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Note on Linux: pre-v5 WRT54GS hardware famously ran Linux (Sveasoft/DD-WRT
+    # community came from this). Models confused on hardware revision will guess
+    # Linux; partial credit because that guess is correct for the broader product
+    # family even though it's wrong for v7.x specifically.
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:dd-wrt:dd-wrt:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "device-verified"
+notes          = "Physical device, stock firmware 7.2.03. Hardware v7.x runs VxWorks (Linksys moved off Linux starting at v5 to cut flash cost), so no linux_kernel CPE in ground truth. NVD has no wrt54gs_firmware namespace and no CPE for 7.2.03 specifically; wildcarded hardware CPE is the tightest available. MAC OUI 00:1E:E5 is Cisco-Linksys, consistent with the device. Cisco:wrt54gs partial covers the Cisco-Linksys branding era (2003-2013)."

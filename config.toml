@@ -1,0 +1,83 @@
+[database]
+uri  = "mongodb://localhost:27017"
+name = "thesis"
+
+[model]
+# backend picks the runtime. Each backend uses only its matching host/endpoint field:
+#   "ollama"      -> ollama_host
+#   "vllm"        -> vllm_host
+#   "huggingface" -> no host (loads model locally via transformers)
+#   "api"         -> api_endpoint (leave empty for OpenAI default)
+#   "cli"         -> cli_command (full argv vector; prompt fed via stdin)
+backend      = "ollama"
+name         = "kimi-k2.6:cloud"
+version      = ""
+ollama_host  = "http://localhost:11434"
+vllm_host    = "http://10.101.68.83:8001"
+api_endpoint = ""
+# CLI backend — examples:
+#   Claude Code: ["claude", "-p", "--model", "claude-opus-4-7"]
+#   gemini-cli:  ["gemini", "-p"]
+# Sampling args (temperature/top_p/seed/max_tokens) are NOT forwarded — bake them 
+# into cli_command yourself if the tool exposes flags for them.
+cli_command  = []
+cli_timeout  = 600
+max_tokens   = 10000
+temperature  = 0.0
+top_p        = 1.0
+seed         = 42
+
+[[scans]]
+name = "01-sv-osc-top1000"
+label = "Suite: sV/O/sC top 1000"
+flags = ["-sV", "--version-intensity", "5", "-O", "-sC", "--top-ports", "1000", "-T4"]
+timeout = 600
+
+[[scans]]
+name = "02-sv-intensity1"
+label = "Suite: sV intensity 1"
+flags = ["-sV", "--version-intensity", "1"]
+timeout = 300
+
+[[scans]]
+name = "03-sv-intensity5"
+label = "Suite: sV intensity 5"
+flags = ["-sV", "--version-intensity", "5"]
+timeout = 300
+
+[[scans]]
+name = "04-sv-intensity9"
+label = "Suite: sV intensity 9"
+flags = ["-sV", "--version-intensity", "9"]
+timeout = 300
+
+[[scans]]
+name = "05-dns-sd-udp5353"
+label = "Suite: DNS-SD UDP 5353"
+flags = ["--script", "dns-service-discovery", "-sU", "-p", "5353"]
+timeout = 180
+
+[[scans]]
+name = "06-upnp-udp1900"
+label = "Suite: UPnP UDP 1900"
+flags = ["--script", "upnp-info", "-sU", "-p", "1900"]
+timeout = 180
+
+
+# Per-device ground truth lives in scans/<DeviceName>/Truth.toml.
+# Template:
+#[[truth]]
+#ip             = ""
+#mac            = ""
+#true_vendor    = ""
+#true_product   = ""
+#true_firmware_version = ""
+#accepted_cpes  = [
+#    {cpe = "", tier = "exact"},
+#    {cpe = "", tier = "partial"},
+#]
+#rubric_version = "1.0"
+#label_status   = ""
+#notes          = ""
+
+

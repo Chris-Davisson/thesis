@@ -1,0 +1,36 @@
+[[truth]]
+ip             = "10.1.10.241"
+mac            = "7C:57:58:2B:63:BC"
+true_vendor    = "HP Inc"
+true_product   = "Color LaserJet Pro MFP M479fdw"
+true_hardware_revision = ""
+true_firmware_version = ""
+accepted_cpes  = [
+    # Hardware — HP Color LaserJet Pro MFP M479fdw
+    {cpe = "cpe:2.3:h:hp:color_laserjet_pro_mfp_m479fdw:-:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:hp:color_laserjet_pro_mfp_m479fdw:*:*:*:*:*:*:*:*", tier = "exact"},
+    # OS — Linux (nmap reports broad 3.2 - 4.14 range, can't pin a kernel version)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data — nginx with no version reported)
+    {cpe = "cpe:2.3:a:igor_sysoev:nginx:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:f5:nginx:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:nginx:nginx:*:*:*:*:*:*:*:*", tier = "exact"},
+    # Hardware — broader HP product lines
+    {cpe = "cpe:2.3:h:hp:color_laserjet_pro:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:color_laserjet:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:laserjet_pro:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:laserjet:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:laserjet_pro_mfp:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:laserjet_mfp:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hp:m479:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — any HP hardware identification is correct vendor.
+    # Both vendor strings (hp and hewlett-packard) appear in NVD CPE history.
+    {cpe = "cpe:2.3:h:hp:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:hewlett-packard:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux kernel version variants (nmap reported 3.2-4.14 range)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3.2:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "device-verified"
+notes          = "Physical HP Color LaserJet Pro MFP M479fdw color laser multifunction printer. MAC OUI 7C:57:58 is HP. Hostname 'HP2B63BB' is HP's standard 'HP' + last 6 hex of MAC naming — confirms HP. TLS cert subject commonName='HP2B63BB', organizationName='HP', stateOrProvinceName='Washington', countryName='US' on port 443 confirms HP-issued device cert (HP Inc HQ is in Palo Alto/Spring TX, but the device-cert state field is set to Washington for the cert template). Open services: 80/443/8080 (nginx — used as the EWS/Embedded Web Server reverse proxy), 515 (LPD), 9100 (raw print/JetDirect). nmap OS fingerprint reports Linux 3.2-4.14 (broad range typical for embedded HP firmware) — no specific kernel version pin possible. nginx reported with no version banner, so only unversioned nginx CPE is accepted; nginx vendor migrated igor_sysoev → f5 → nginx in NVD across revisions, all three forms accepted. No NVD CPE namespace exists for HP LaserJet firmware specifically; firmware version not exposed in any of the scanned services (would need SNMP read of hrDeviceDescr/jetDirectFirmwareRev or the EWS authenticated UI). Fields left blank: true_hardware_revision (HP does not publish a hw-rev field for this line), true_firmware_version (not recoverable from this scan set)."

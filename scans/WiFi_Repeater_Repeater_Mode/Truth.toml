@@ -1,0 +1,41 @@
+[[truth]]
+ip             = "192.168.0.172"
+mac            = ""
+true_vendor    = ""
+true_product   = ""
+true_hardware_revision = ""
+true_firmware_version = ""
+accepted_cpes  = [
+    # OS — OpenWrt Chaos Calmer 15.05 / Designated Driver (nmap fingerprint, accuracy 100)
+    {cpe = "cpe:2.3:o:openwrt:openwrt:15.05:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Kernel — Linux 3.18 (Chaos Calmer) or 4.1/4.4 (Designated Driver)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3.18:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4.1:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data)
+    {cpe = "cpe:2.3:a:matt_johnston:dropbear_ssh_server:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:dropbear_ssh:dropbear_ssh:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:busybox:busybox:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:1.4.32:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:lighttpd:lighttpd:*:*:*:*:*:*:*:*", tier = "exact"},
+    # OpenWrt version variants
+    {cpe = "cpe:2.3:o:openwrt:openwrt:designated_driver:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:chaos_calmer:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:15:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux kernel version variants
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4.4:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:3:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OpenSSH (Dropbear is OpenSSH-protocol compatible)
+    {cpe = "cpe:2.3:a:openbsd:openssh:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic device class — WiFi extender/repeater in repeater mode
+    {cpe = "cpe:2.3:h:generic:wifi_repeater:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_extender:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_access_point:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Embedded-router-OS family fallback
+    {cpe = "cpe:2.3:o:dd-wrt:dd-wrt:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device in repeater mode (joined the upstream WiFi as a client and got 192.168.0.172 from the upstream router's DHCP). MAC field is blank because the scan was run from a different L2 segment (upstream side) — nmap could not observe the device's MAC via ARP, only its routed IPv4 address. Telnet banner reports hostname 'Srepeater', confirming this is the same physical hardware as WiFi_Repeater_AP_Mode and WiFi_Repeater_Router_Mode (whose MACs are 26:C9:2B:9E:9D:D6/D7). Open services: 22 (Dropbear SSH), 23 (BusyBox telnetd), 53 (DNS, returns SERVFAIL — Unbound is running but not authoritative in this mode), 80 (lighttpd 1.4.32, no title), 81 (no banner). nmap OS fingerprint exact 100% match on 'OpenWrt Chaos Calmer 15.05 (Linux 3.18) or Designated Driver (Linux 4.1 or 4.4)'. Fields left blank: mac (off-segment), true_vendor, true_product, true_hardware_revision, true_firmware_version (no vendor/product banner exposed)."

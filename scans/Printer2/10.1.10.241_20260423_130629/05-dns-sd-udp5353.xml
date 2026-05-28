@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///opt/homebrew/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.99 scan initiated Thu Apr 23 13:07:36 2026 as: nmap -&#45;script dns-service-discovery -sU -p 5353 -oX /Users/christopherdavisson/Downloads/thesis-master/scans/10.1.10.241_20260423_130629/05-dns-sd-udp5353.xml 10.1.10.241 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script dns-service-discovery -sU -p 5353 -oX /Users/christopherdavisson/Downloads/thesis-master/scans/10.1.10.241_20260423_130629/05-dns-sd-udp5353.xml 10.1.10.241" start="1776974856" startstr="Thu Apr 23 13:07:36 2026" version="7.99" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="5353"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.1.10.241" addrtype="ipv4"/>
+<address addr="7C:57:58:2B:63:BC" addrtype="mac" vendor="HP"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776974856" endtime="1776974856"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.1.10.241" addrtype="ipv4"/>
+<address addr="7C:57:58:2B:63:BC" addrtype="mac" vendor="HP"/>
+<hostnames>
+<hostname name="HP2B63BB" type="PTR"/>
+</hostnames>
+<ports><port protocol="udp" portid="5353"><state state="open" reason="udp-response" reason_ttl="64"/><service name="zeroconf" method="table" conf="3"/><script id="dns-service-discovery" output="&#xa;  80/tcp privet: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      ty=HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;      note=&#xa;      url=https://www.google.com/cloudprint&#xa;      type=printer&#xa;      id=&#xa;      cs=not-configured&#xa;  80/tcp http: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;  443/tcp uscans: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local.&#xa;      note=&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      vers=2.63&#xa;      representation=images/printer.png&#xa;      rs=eSCL&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      pdl=application/octet-stream,application/pdf,image/jpeg&#xa;      cs=binary,color,grayscale&#xa;      is=platen,adf&#xa;      duplex=T&#xa;      mopria-certified-scan=1.2&#xa;  515/tcp printer: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local.&#xa;      note=&#xa;      priority=52&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      product=(HP Color LaserJet Pro M478f-9f)&#xa;      pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-,application/vnd.ms-excel,application/vnd.ms-powerpoint&#xa;      qtotal=1&#xa;      Duplex=T&#xa;      Scan=T&#xa;      rp=RAW&#xa;      kind=document&#xa;      PaperMax=legal-A4&#xa;  631/tcp ipp: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local./#hId-pgAirPrint&#xa;      note=&#xa;      priority=20&#xa;      qtotal=1&#xa;      TLS=1.2&#xa;      rp=ipp/print&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      product=(HP Color LaserJet Pro M478f-9f)&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      usb_MFG=HP&#xa;      usb_MDL=Color LaserJet Pro M478f-9f&#xa;      Color=T&#xa;      Duplex=F&#xa;      pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m&#xa;      PaperMax=legal-A4&#xa;      URF=CP1,MT1-2-8-9-10-11,PQ3-4-5,RS600,SRGB24,OB10,W8,DEVW8,DEVRGB24,ADOBERGB24,IS19-1-2,V1.5,FN3&#xa;      kind=document&#xa;      Scan=T&#xa;      mopria-certified=2.0&#xa;      rfo=ipp/faxout&#xa;      Fax=T&#xa;  631/tcp ipps: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local./#hId-pgAirPrint&#xa;      note=&#xa;      priority=30&#xa;      qtotal=1&#xa;      TLS=1.2&#xa;      rp=ipp/print&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      product=(HP Color LaserJet Pro M478f-9f)&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      usb_MFG=HP&#xa;      usb_MDL=Color LaserJet Pro M478f-9f&#xa;      Color=T&#xa;      Duplex=F&#xa;      pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m&#xa;      PaperMax=legal-A4&#xa;      URF=CP1,MT1-2-8-9-10-11,PQ3-4-5,RS600,SRGB24,OB10,W8,DEVW8,DEVRGB24,ADOBERGB24,IS19-1-2,V1.5,FN3&#xa;      kind=document&#xa;      Scan=T&#xa;      mopria-certified=2.0&#xa;      rfo=ipp/faxout&#xa;      Fax=T&#xa;  8080/tcp scanner: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local.&#xa;      note=&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      mfg=HP&#xa;      mdl=Color LaserJet Pro M478f-9f&#xa;      flatbed=T&#xa;      feeder=T&#xa;      button=T&#xa;  8080/tcp uscan: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      adminurl=http://HP7C57582B63BB.local.&#xa;      note=&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      vers=2.63&#xa;      representation=images/printer.png&#xa;      rs=eSCL&#xa;      ty=HP Color LaserJet Pro M478f-9f&#xa;      pdl=application/octet-stream,application/pdf,image/jpeg&#xa;      cs=binary,color,grayscale&#xa;      is=platen,adf&#xa;      duplex=T&#xa;      mopria-certified-scan=1.2&#xa;  8080/tcp http-alt: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;  9100/tcp pdl-datastream: &#xa;    ipv4: 10.1.10.241&#xa;    ipv6: fe80::7e57:58ff:fe2b:63bc&#xa;    name: HP Color LaserJet Pro M478f-9f [2B63BB]&#xa;    hostname: HP7C57582B63BB&#xa;    TXT: &#xa;      txtvers=1&#xa;      rp=&#xa;      priority=40&#xa;      UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a&#xa;      mac=7c:57:58:2b:63:bc&#xa;      usb_MFG=HP&#xa;      usb_MDL=Color LaserJet Pro M478f-9f&#xa;      pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m"><table key="80/tcp privet">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem>note=</elem>
+<elem>url=https://www.google.com/cloudprint</elem>
+<elem>type=printer</elem>
+<elem>id=</elem>
+<elem>cs=not-configured</elem>
+</table>
+</table>
+<table key="80/tcp http">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+</table>
+<table key="443/tcp uscans">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local.</elem>
+<elem>note=</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>vers=2.63</elem>
+<elem>representation=images/printer.png</elem>
+<elem>rs=eSCL</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>pdl=application/octet-stream,application/pdf,image/jpeg</elem>
+<elem>cs=binary,color,grayscale</elem>
+<elem>is=platen,adf</elem>
+<elem>duplex=T</elem>
+<elem>mopria-certified-scan=1.2</elem>
+</table>
+</table>
+<table key="515/tcp printer">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local.</elem>
+<elem>note=</elem>
+<elem>priority=52</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>product=(HP Color LaserJet Pro M478f-9f)</elem>
+<elem>pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-,application/vnd.ms-excel,application/vnd.ms-powerpoint</elem>
+<elem>qtotal=1</elem>
+<elem>Duplex=T</elem>
+<elem>Scan=T</elem>
+<elem>rp=RAW</elem>
+<elem>kind=document</elem>
+<elem>PaperMax=legal-A4</elem>
+</table>
+</table>
+<table key="631/tcp ipp">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local./#hId-pgAirPrint</elem>
+<elem>note=</elem>
+<elem>priority=20</elem>
+<elem>qtotal=1</elem>
+<elem>TLS=1.2</elem>
+<elem>rp=ipp/print</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>product=(HP Color LaserJet Pro M478f-9f)</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>usb_MFG=HP</elem>
+<elem>usb_MDL=Color LaserJet Pro M478f-9f</elem>
+<elem>Color=T</elem>
+<elem>Duplex=F</elem>
+<elem>pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m</elem>
+<elem>PaperMax=legal-A4</elem>
+<elem>URF=CP1,MT1-2-8-9-10-11,PQ3-4-5,RS600,SRGB24,OB10,W8,DEVW8,DEVRGB24,ADOBERGB24,IS19-1-2,V1.5,FN3</elem>
+<elem>kind=document</elem>
+<elem>Scan=T</elem>
+<elem>mopria-certified=2.0</elem>
+<elem>rfo=ipp/faxout</elem>
+<elem>Fax=T</elem>
+</table>
+</table>
+<table key="631/tcp ipps">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local./#hId-pgAirPrint</elem>
+<elem>note=</elem>
+<elem>priority=30</elem>
+<elem>qtotal=1</elem>
+<elem>TLS=1.2</elem>
+<elem>rp=ipp/print</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>product=(HP Color LaserJet Pro M478f-9f)</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>usb_MFG=HP</elem>
+<elem>usb_MDL=Color LaserJet Pro M478f-9f</elem>
+<elem>Color=T</elem>
+<elem>Duplex=F</elem>
+<elem>pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m</elem>
+<elem>PaperMax=legal-A4</elem>
+<elem>URF=CP1,MT1-2-8-9-10-11,PQ3-4-5,RS600,SRGB24,OB10,W8,DEVW8,DEVRGB24,ADOBERGB24,IS19-1-2,V1.5,FN3</elem>
+<elem>kind=document</elem>
+<elem>Scan=T</elem>
+<elem>mopria-certified=2.0</elem>
+<elem>rfo=ipp/faxout</elem>
+<elem>Fax=T</elem>
+</table>
+</table>
+<table key="8080/tcp scanner">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local.</elem>
+<elem>note=</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>mfg=HP</elem>
+<elem>mdl=Color LaserJet Pro M478f-9f</elem>
+<elem>flatbed=T</elem>
+<elem>feeder=T</elem>
+<elem>button=T</elem>
+</table>
+</table>
+<table key="8080/tcp uscan">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>adminurl=http://HP7C57582B63BB.local.</elem>
+<elem>note=</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>vers=2.63</elem>
+<elem>representation=images/printer.png</elem>
+<elem>rs=eSCL</elem>
+<elem>ty=HP Color LaserJet Pro M478f-9f</elem>
+<elem>pdl=application/octet-stream,application/pdf,image/jpeg</elem>
+<elem>cs=binary,color,grayscale</elem>
+<elem>is=platen,adf</elem>
+<elem>duplex=T</elem>
+<elem>mopria-certified-scan=1.2</elem>
+</table>
+</table>
+<table key="8080/tcp http-alt">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+</table>
+<table key="9100/tcp pdl-datastream">
+<elem key="ipv4">10.1.10.241</elem>
+<elem key="ipv6">fe80::7e57:58ff:fe2b:63bc</elem>
+<elem key="name">HP Color LaserJet Pro M478f-9f [2B63BB]</elem>
+<elem key="hostname">HP7C57582B63BB</elem>
+<table key="TXT">
+<elem>txtvers=1</elem>
+<elem>rp=</elem>
+<elem>priority=40</elem>
+<elem>UUID=bb1de4bf-1246-503f-27e2-81bbcbf2c11a</elem>
+<elem>mac=7c:57:58:2b:63:bc</elem>
+<elem>usb_MFG=HP</elem>
+<elem>usb_MDL=Color LaserJet Pro M478f-9f</elem>
+<elem>pdl=application/vnd.hp-PCL,application/vnd.hp-PCLXL,application/postscript,application/msword,application/pdf,image/jpeg,image/urf,image/pwg-raster,application/PCLm,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.m</elem>
+</table>
+</table>
+</script></port>
+</ports>
+<times srtt="98650" rttvar="110775" to="541750"/>
+</host>
+<runstats><finished time="1776974857" timestr="Thu Apr 23 13:07:37 2026" summary="Nmap done at Thu Apr 23 13:07:37 2026; 1 IP address (1 host up) scanned in 0.27 seconds" elapsed="0.27" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

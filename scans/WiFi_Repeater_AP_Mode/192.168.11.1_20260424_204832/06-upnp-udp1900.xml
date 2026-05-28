@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Fri Apr 24 20:58:18 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.11.1_20260424_204832\\06-upnp-udp1900.xml 192.168.11.1 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.11.1_20260424_204832\\06-upnp-udp1900.xml 192.168.11.1" start="1777089498" startstr="Fri Apr 24 20:58:18 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.11.1" addrtype="ipv4"/>
+<address addr="26:C9:2B:9E:9D:D7" addrtype="mac"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1777089498" endtime="1777089503"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.11.1" addrtype="ipv4"/>
+<address addr="26:C9:2B:9E:9D:D7" addrtype="mac"/>
+<hostnames>
+<hostname name="Srepeater.lan" type="PTR"/>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="upnp" method="table" conf="3"/></port>
+</ports>
+<times srtt="1000" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1777089503" timestr="Fri Apr 24 20:58:23 2026" summary="Nmap done at Fri Apr 24 20:58:23 2026; 1 IP address (1 host up) scanned in 5.77 seconds" elapsed="5.77" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

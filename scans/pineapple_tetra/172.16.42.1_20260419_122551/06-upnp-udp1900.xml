@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Apr 19 12:29:10 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\172.16.42.1_20260419_122551\\06-upnp-udp1900.xml 172.16.42.1 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\172.16.42.1_20260419_122551\\06-upnp-udp1900.xml 172.16.42.1" start="1776626950" startstr="Sun Apr 19 12:29:10 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="172.16.42.1" addrtype="ipv4"/>
+<address addr="00:13:37:A7:A4:C1" addrtype="mac" vendor="Orient Power Home Network"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776626950" endtime="1776626956"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="172.16.42.1" addrtype="ipv4"/>
+<address addr="00:13:37:A7:A4:C1" addrtype="mac" vendor="Orient Power Home Network"/>
+<hostnames>
+<hostname name="Pineapple.lan" type="PTR"/>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="upnp" method="table" conf="3"/></port>
+</ports>
+<times srtt="4000" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1776626956" timestr="Sun Apr 19 12:29:16 2026" summary="Nmap done at Sun Apr 19 12:29:16 2026; 1 IP address (1 host up) scanned in 5.70 seconds" elapsed="5.70" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

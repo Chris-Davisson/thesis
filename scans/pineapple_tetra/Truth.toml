@@ -1,0 +1,38 @@
+[[truth]]
+ip             = "172.16.42.1"
+mac            = "00:13:37:A7:A4:C1"
+true_vendor    = "Hak5"
+true_product   = "WiFi Pineapple Tetra model MK5.8"
+true_firmware_version = "2.7.0"
+accepted_cpes  = [
+    # Hardware — Hak5 WiFi Pineapple Tetra
+    {cpe = "cpe:2.3:h:hak5:wifi_pineapple_tetra:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:hak5:pineapple_tetra:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:h:hak5:wifi_pineapple:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OS — OpenWrt 19.07 (nmap OS fingerprint 100% match)
+    {cpe = "cpe:2.3:o:openwrt:openwrt:19.07:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:o:openwrt:openwrt:*:*:*:*:*:*:*:*", tier = "exact"},
+    # Kernel — Linux 4.14 (stock kernel for OpenWrt 19.07)
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4.14:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Services (from banner data)
+    {cpe = "cpe:2.3:a:openbsd:openssh:8.0:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:openbsd:openssh:*:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:f5:nginx:1.17.7:*:*:*:*:*:*:*", tier = "exact"},
+    {cpe = "cpe:2.3:a:nginx:nginx:1.17.7:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:igor_sysoev:nginx:1.17.7:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:a:igor_sysoev:nginx:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor-only fallback — Hak5 product family identification
+    {cpe = "cpe:2.3:h:hak5:*:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Generic pentest/router hardware identification — partial credit for
+    # correctly identifying the device class
+    {cpe = "cpe:2.3:h:generic:wifi_router:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:generic:wifi_access_point:*:*:*:*:*:*:*:*", tier = "partial"},
+    # OpenWrt version variants — Tetra firmware sits between OpenWrt 18.06 and 19.07
+    {cpe = "cpe:2.3:o:openwrt:openwrt:18.06:*:*:*:*:*:*:*", tier = "partial"},
+    # Linux kernel variants — OpenWrt 19.07 ships kernel 4.14 by default
+    {cpe = "cpe:2.3:o:linux:linux_kernel:4:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device, Hak5 WiFi Pineapple Tetra (MK5.8 hardware, firmware 2.7.0). MAC 00:13:37:A7:A4:C1 is the LAN interface observed on 172.16.42.1 — the Tetra has multiple radios (wlan0/wlan1/wlan2) with distinct MACs, so any single MAC captures only one interface; OUI 00:13:37 (LEET) is a Hak5-assigned vendor block. nmap OS fingerprint is an exact 100% match on OpenWrt 19.07 / Linux 4.14, which is the stock PineAP firmware base. Service-level banners expose OpenSSH 8.0 on :22 and nginx 1.17.7 on :80 (the PineAP management UI) — both give strong application CPEs at version precision. No Hak5-specific NVD CPE entry is known to exist for the Tetra; the hak5:wifi_pineapple_tetra hardware CPE is aspirational / may be absent from NVD, in which case the broader hak5:wifi_pineapple family CPE partial-credits identification. nginx vendor migrated from igor_sysoev to f5 to nginx across NVD revisions — multiple vendor forms accepted."

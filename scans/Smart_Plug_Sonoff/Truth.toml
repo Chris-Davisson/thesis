@@ -1,0 +1,28 @@
+[[truth]]
+ip             = "192.168.0.26"
+mac            = "40:22:D8:95:1D:C6"
+true_vendor    = "Sonoff"
+true_product   = ""
+true_hardware_revision = ""
+true_firmware_version = ""
+accepted_cpes  = [
+    # OS — lwIP TCP/IP stack (nmap fingerprint: lwIP 1.4.1 - 2.0.3, accuracy 99)
+    {cpe = "cpe:2.3:a:lwip_project:lwip:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Hardware — Espressif SoC family (MAC OUI 40:22:D8 is Espressif; Sonoff
+    # smart plugs ship with ESP8266 or ESP32 SoCs)
+    {cpe = "cpe:2.3:h:espressif:esp8266:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:espressif:esp32:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Vendor — Sonoff is the brand; ITEAD is the parent company
+    {cpe = "cpe:2.3:h:sonoff:smart_plug:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:h:itead:sonoff:*:*:*:*:*:*:*:*", tier = "partial"},
+    # Firmware family — most Sonoff devices ship eWeLink/iTead firmware,
+    # often Tasmota-flashable; partial credit for either firmware family.
+    {cpe = "cpe:2.3:o:itead:ewelink_firmware:*:*:*:*:*:*:*:*", tier = "partial"},
+    {cpe = "cpe:2.3:o:tasmota:tasmota:*:*:*:*:*:*:*:*", tier = "partial"},
+    # RTOS family — generic FreeRTOS/embedded RTOS identification is in the
+    # right family for an ESP-based device.
+    {cpe = "cpe:2.3:o:amazon:freertos:*:*:*:*:*:*:*:*", tier = "partial"},
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical Sonoff smart plug. MAC OUI 40:22:D8 is Espressif (confirms ESP8266/ESP32 SoC, standard for Sonoff/iTead products). Specific model not identified — no UPnP (port 1900 closed), no mDNS response (port 5353 open|filtered, no service announce), no HTTP banner. Only TCP port 8081 open, which is the eWeLink LAN-mode control protocol used by ITEAD/Sonoff devices. nmap OS fingerprint matches lwIP 1.4.1-2.0.3 (99%) with the third-best match being 'Shelly home automation device' (91%) — consistent with an ESP-based smart-home device. No NVD CPE exists for Sonoff/iTead consumer smart plugs. Fields left blank: true_product (need physical label), true_hardware_revision, true_firmware_version (eWeLink protocol does not expose firmware over the network without authentication)."

@@ -1,0 +1,14 @@
+[[truth]]
+ip             = "192.168.0.26"
+mac            = ""
+true_vendor    = ""
+true_product   = ""
+true_hardware_revision = ""
+true_firmware_version = ""
+accepted_cpes  = [
+    {cpe = "", tier = "exact"},
+
+]
+rubric_version = "1.0"
+label_status   = "hardware-derived"
+notes          = "Physical device, ."

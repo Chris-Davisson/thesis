@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///C:/Program Files (x86)/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Tue Apr 21 17:54:51 2026 as: nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.109_20260421_175406\\06-upnp-udp1900.xml 192.168.0.109 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script upnp-info -sU -p 1900 -oX C:\\Users\\NemoS\\Documents\\Projects\\Thesis\\scans\\192.168.0.109_20260421_175406\\06-upnp-udp1900.xml 192.168.0.109" start="1776819291" startstr="Tue Apr 21 17:54:51 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="1" services="1900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.109" addrtype="ipv4"/>
+<address addr="28:7E:80:E6:A0:63" addrtype="mac" vendor="Hui Zhou Gaoshengda Technology"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1776819293" endtime="1776819293"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.0.109" addrtype="ipv4"/>
+<address addr="28:7E:80:E6:A0:63" addrtype="mac" vendor="Hui Zhou Gaoshengda Technology"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="udp" portid="1900"><state state="closed" reason="port-unreach" reason_ttl="64"/><service name="upnp" method="table" conf="3"/></port>
+</ports>
+<times srtt="85125" rttvar="93750" to="460125"/>
+</host>
+<runstats><finished time="1776819293" timestr="Tue Apr 21 17:54:53 2026" summary="Nmap done at Tue Apr 21 17:54:53 2026; 1 IP address (1 host up) scanned in 1.17 seconds" elapsed="1.17" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
