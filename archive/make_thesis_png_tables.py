@@ -29,7 +29,7 @@ from analyze import (
     load_config,
     plot_model_comparison,
 )
-from export_thesis_data import (
+from archive.export_thesis_data import (
     EXCLUDED_DEVICES,
     EXCLUDED_MODELS,
     _filter_for_thesis,
