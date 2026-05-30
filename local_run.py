@@ -164,7 +164,7 @@ async def run_inference(
     Up to (retries + 1) total attempts: one initial try plus `retries` more
     on failure, with exponential backoff of retry_delay * 2**attempt seconds
     between attempts. The semaphore is held for the whole retry sequence so
-    a flaky server can't let in-flight count balloon past --concurrency.
+    failed requests do not increase the in-flight count past --concurrency.
 
     Returns (task, started_at, ended_at, raw_output, status, parsed_output,
              error_text, messages).
@@ -360,7 +360,7 @@ async def async_main(args):
     for i, coro in enumerate(asyncio.as_completed(coros), start=1):
         task, started_at, ended_at, raw_output, status, parsed_output, error_text, messages = await coro
 
-        # Write to database (sync, but fast)
+        # Write to the database synchronously.
         run_id = write_result_to_db(
             db, task, model_config,
             started_at, ended_at, raw_output, status, parsed_output, error_text, messages

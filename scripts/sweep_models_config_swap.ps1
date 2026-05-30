@@ -2,16 +2,16 @@
 # sweep_models_config_swap.ps1 — multi-model sweep that rewrites
 # [model].name in config.toml in place rather than passing --model.
 #
-# Why two ways? sweep_models.ps1 is the simple path: it just hands
-# --model to run.py. THIS script is for the case where you want
-# config.toml to actually reflect what's running (e.g. you're tailing
-# the file, or some adjacent tool reads it).
+# Unlike sweep_models.ps1, this script writes each model name to
+# config.toml instead of passing --model to run.py. Use it when
+# config.toml must record the active model for monitoring or for
+# another tool that reads the file.
 #
 # Behavior:
-#   • For each model: `ollama pull` (warm-up), then rewrite the
+#   • For each model: `ollama pull` (cache the model), then rewrite the
 #     [model].name line in config.toml, then run.py per scan_id
 #     (no --model — run.py reads from config).
-#   • Snapshots config.toml at start and ALWAYS restores it in the
+#   • Snapshots config.toml at start and always restores it in the
 #     finally{} block — even on Ctrl-C or mid-sweep crash.
 #   • Set-ModelName only edits inside the [model] section. [[scans]]
 #     blocks also have a `name` field and must not be touched.

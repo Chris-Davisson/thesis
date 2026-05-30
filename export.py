@@ -132,7 +132,7 @@ def build_scores_wide(db) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# One row per model_run — shows error/empty runs that scores_wide can't
+# One row per model_run — shows error/empty runs that scores_wide cannot
 # ---------------------------------------------------------------------------
 
 def build_run_manifest(db) -> pd.DataFrame:
@@ -187,7 +187,7 @@ def build_run_manifest(db) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# Aggregation helpers (unchanged logic — just read from the new wide DF)
+# Aggregation helpers (unchanged logic; read from the new wide DF)
 # ---------------------------------------------------------------------------
 
 def compute_summary_by_model(scores_df):

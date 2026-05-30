@@ -9,7 +9,7 @@ hosted API instead of a local vLLM server.
 
 No sampling knobs. Temperature, top-p, top-k, and seed are intentionally
 omitted — every API call is made with provider defaults so results
-reflect 'how the API behaves out of the box'. Guided decoding is also
+reflect provider-default behavior. Guided decoding is also
 not exposed (no equivalent across all three providers).
 
 Usage:
@@ -77,7 +77,7 @@ def build_messages(system_prompt: str, scan_payload: str, doubled: bool) -> list
     Doubled: single user message with [system, scan, DELIM, system, scan].
 
     This is the canonical representation stored in model_runs.messages,
-    regardless of which provider was actually called.
+    regardless of which provider was invoked.
     """
     if doubled:
         block = f"{system_prompt}\n\n{scan_payload}"
@@ -383,8 +383,8 @@ async def async_main(args):
     api_key = resolve_api_key(args.company, args.api_key)
     provider = make_provider(args.company, api_key, args.model)
 
-    # Stored model name namespaces the provider so it doesn't collide with
-    # local checkpoints sharing a base name.
+    # Stored model name namespaces the provider to avoid collisions with local
+    # checkpoints sharing a base name.
     stored_name = f"{args.company}/{args.model}"
     model_config = {
         "name":       stored_name,

@@ -4,8 +4,8 @@ Concurrent sweep of all scans × prompts against a local vLLM server.
 
 Same as local_run.py but feeds the model the **raw nmap XML** from
 scan.nmap.xml instead of the pre-formatted plaintext payload, and tags
-every model_runs document with a "just fucking around run" note so these
-results are easy to filter out later.
+every model_runs document with a "raw XML experimental run" note so these
+results can be filtered separately.
 
 Usage:
     python local_run2.py --model "meta-llama/Llama-3.3-70B-Instruct"
@@ -34,7 +34,7 @@ from db import ensure_db, get_db, next_id
 
 DOUBLED_DELIMITER = "\n\n--- REPEAT ---\n\n"
 
-RUN_NOTE = "just fucking around run"
+RUN_NOTE = "raw XML experimental run"
 
 # Regex pattern for guided decoding — matches JSON with "cpes" array of CPE 2.3 strings
 # This constrains vLLM to output valid JSON structure
@@ -164,7 +164,7 @@ async def run_inference(
     Up to (retries + 1) total attempts: one initial try plus `retries` more
     on failure, with exponential backoff of retry_delay * 2**attempt seconds
     between attempts. The semaphore is held for the whole retry sequence so
-    a flaky server can't let in-flight count balloon past --concurrency.
+    failed requests do not increase the in-flight count past --concurrency.
 
     Returns (task, started_at, ended_at, raw_output, status, parsed_output,
              error_text, messages).
@@ -371,7 +371,7 @@ async def async_main(args):
     for i, coro in enumerate(asyncio.as_completed(coros), start=1):
         task, started_at, ended_at, raw_output, status, parsed_output, error_text, messages = await coro
 
-        # Write to database (sync, but fast)
+        # Write to the database synchronously.
         run_id = write_result_to_db(
             db, task, model_config,
             started_at, ended_at, raw_output, status, parsed_output, error_text, messages
@@ -409,7 +409,7 @@ async def async_main(args):
 def main():
     parser = argparse.ArgumentParser(
         description="Concurrent sweep of scans × prompts against local vLLM server "
-                    "(feeds raw nmap XML; tags runs as a 'just fucking around run')"
+                    "(feeds raw nmap XML; tags runs as a 'raw XML experimental run')"
     )
     parser.add_argument(
         "--model", required=True,

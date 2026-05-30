@@ -5,29 +5,30 @@ Ollama-hosted models (cloud or local), with retry-on-empty-body.
 
 Purpose: re-run Ollama Cloud models (kimi-k2.6:cloud, qwen3.5:cloud, …) that
 returned empty bodies for most of their original sweep. The original
-sequential runner had no way to distinguish "server timed out and returned
-empty" from "model abstained," so empties were written as-is. This script:
+sequential runner could not distinguish "server timed out and returned
+empty" from "model abstained," so empty bodies were stored without
+classification. This script:
 
   - Sends concurrent requests (default 8) against the local Ollama endpoint,
     which forwards :cloud model traffic to ollama.com.
-  - Retries on HTTP error AND on suspiciously-empty responses (configurable
+  - Retries on HTTP error AND on short responses (configurable
     threshold; default <8 chars).
-  - Lets you target a subset of (scan, prompt, doubled) tuples that were
+  - Supports targeting a subset of (scan, prompt, doubled) tuples that were
     previously empty, instead of re-running the entire sweep.
   - Writes to the same model_runs schema as run.py / local_run.py so
-    score.py picks up the new rows automatically.
+    score.py processes the new rows.
 
 Usage:
     # Re-run only previously-empty (scan, prompt, doubled) combinations for kimi:
     python ollama_cloud_run.py --model kimi-k2.6:cloud --only-empty
 
-    # Same, multiple models:
+    # Multiple models:
     python ollama_cloud_run.py --model kimi-k2.6:cloud --model qwen3.5:cloud --only-empty
 
     # Full re-sweep, higher concurrency:
     python ollama_cloud_run.py --model kimi-k2.6:cloud --concurrency 16
 
-    # Delete the previous empty runs first, then write fresh ones (instead of
+    # Delete the previous empty runs first, then write replacement ones (instead of
     # accumulating trials):
     python ollama_cloud_run.py --model kimi-k2.6:cloud --only-empty --replace-empty
 
@@ -55,8 +56,8 @@ from db import ensure_db, get_db, next_id
 
 DOUBLED_DELIMITER = "\n\n--- REPEAT ---\n\n"
 
-# Anything shorter than this in raw_output is treated as "the server didn't
-# really answer" and retried. Tune via --min-output-chars.
+# Anything shorter than this in raw_output is treated as an incomplete
+# response and retried. Tune via --min-output-chars.
 DEFAULT_MIN_OUTPUT_CHARS = 8
 
 
@@ -193,8 +194,8 @@ async def run_one(
         options=options,
         stream=False,
     )
-    # `think` is a top-level chat param on ollama-python >= 0.4. For models
-    # that don't support reasoning it's silently ignored. Passing False on a
+    # `think` is a top-level chat param on ollama-python >= 0.4. Models without
+    # reasoning support silently ignore it. Passing False on a
     # reasoning model (kimi-k2.6, qwen3.5, …) prevents the model from spending
     # its token budget on internal thinking and leaving content empty.
     chat_kwargs["think"] = think
@@ -216,8 +217,8 @@ async def run_one(
                 if len(raw_output) < min_output_chars:
                     # Server returned 200 but the body is too short to be a
                     # real answer. Most common cause: the model is a reasoning
-                    # model that consumed its budget on thinking. Retry rarely
-                    # helps in that case, but is cheap.
+                    # model that consumed its budget on thinking. A retry still
+                    # covers transient empty responses.
                     n_think = len(thinking_text or "")
                     error_text = f"empty_body (content={len(raw_output)} chars, thinking={n_think} chars)"
                     status = "error"
@@ -370,7 +371,7 @@ async def sweep_model(args, db, scans, prompts, model_name: str, model_config: d
             for doubled in (False, True):
                 all_tuples.add((scan["_id"], prompt["_id"], doubled))
 
-    # Decide which tuples to actually run
+    # Select tuples to run
     if args.only_empty:
         target = find_empty_tuples(db, model_name, args.min_output_chars)
         target &= all_tuples

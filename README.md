@@ -52,13 +52,13 @@ done
 .venv/bin/python export.py
 ```
 
-Shell wrappers `run_all.sh` / `run_all.ps1` do the scan-id loop for you.
+Shell wrappers `run_all.sh` / `run_all.ps1` execute the scan-id loop.
 
-To run multiple models or configs, change `config.toml` between `run.py` invocations — each response becomes a new `model_runs` doc, so previous runs are preserved. `trial_number` auto-increments per `(scan, prompt, doubled, model)` tuple, so repeat invocations accumulate trials for variance analysis. `scores.py --all` only scores runs that don't have scores yet.
+To run multiple models or configs, change `config.toml` between `run.py` invocations — each response becomes a new `model_runs` doc, so previous runs are preserved. `trial_number` auto-increments per `(scan, prompt, doubled, model)` tuple, so repeat invocations accumulate trials for variance analysis. `scores.py --all` only scores runs without scores.
 
 ## Full reset
 
-When scan data, truth, or prompts need a clean slate:
+To reset scan data, truth, and prompts:
 
 ```bash
 # Drop DB
@@ -91,7 +91,7 @@ Useful for debugging or re-running one scan:
 | `scans`      | One doc per nmap XML. Contains raw XML, parsed host, and LLM payload. |
 | `prompts`    | One doc per `(name, version)`. Immutable once referenced by a run.    |
 | `model_runs` | One doc per `(scan, prompt, model, doubled, trial)` response. Embeds `scores` array. |
-| `counters`   | `_id` generator. Don't touch.                                         |
+| `counters`   | `_id` generator. Do not modify directly.                              |
 
 ### Key `model_runs` fields
 
@@ -99,7 +99,7 @@ Useful for debugging or re-running one scan:
 |----------------|---------------------------------------------------------------------|
 | `scan_id`      | Which scan's payload was fed in.                                    |
 | `prompt_id`    | Which prompt was used (`null` for `nmap` baseline rows).            |
-| `doubled`      | `false` = normal system+user; `true` = prompt-sandwich single user. |
+| `doubled`      | `false` = normal system+user; `true` = repeated prompt and payload in one user message. |
 | `trial_number` | 1-based counter per `(scan, prompt, doubled, model.name)`. Repeat `run.py` invocations produce trial 2, 3, … |
 | `model.name`   | `qwen...`, `gpt-...`, or `nmap` for the baseline rows.              |
 | `parsed_output`| `{"cpes": [...]}` extracted from `raw_output`. Used by scorer.      |

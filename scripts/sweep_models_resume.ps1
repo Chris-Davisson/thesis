@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------
-# sweep_models_resume.ps1 — resume a sweep_models.ps1 run that died
-# mid-stream (network blip, OOM, Ctrl-C, etc.).
+# sweep_models_resume.ps1 — resume a sweep_models.ps1 run that stopped
+# before completion (network interruption, OOM, Ctrl-C, etc.).
 #
 # Usage:
 #   ./scripts/sweep_models_resume.ps1 -StartIndex <n> [-StartModel <name>]

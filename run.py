@@ -148,7 +148,7 @@ class CLIBackend(InferenceBackend):
     def __init__(self, command: list[str], timeout: int = 600):
         if not command:
             raise ValueError("config.toml: backend='cli' but cli_command is empty")
-        # Resolve the binary up front so PATHEXT / .cmd shims work on Windows
+        # Resolve the binary before inference so PATHEXT / .cmd shims work on Windows.
         resolved = shutil.which(command[0]) or command[0]
         self.command = [resolved, *command[1:]]
         self.timeout = timeout

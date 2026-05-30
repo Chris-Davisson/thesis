@@ -562,11 +562,11 @@ def agg_26_model_variants(df):
     """
     Per-model breakdown by sampling / decoding variant. One row per unique
     (model_short, temperature, seed, doubled, guided) combination, LLM-only.
-    Lets you graph variant-level deltas (temp/seed/doubled/guided) that the
-    model-level sheets collapse together.
+    Supports graphs of variant-level deltas (temp/seed/doubled/guided) that
+    are combined in the model-level sheets.
     """
     llm = _llm(df).copy()
-    # `seed` can be None on runs that didn't pass one — represent as "—" so
+    # `seed` can be None on runs without one — represent as "—" so
     # groupby keeps the bucket instead of dropping it.
     llm["seed"] = llm["seed"].where(llm["seed"].notna(), other="—")
 
@@ -590,7 +590,7 @@ def agg_26_model_variants(df):
     out["sem"] = out["std_score"] / np.sqrt(out["n_predictions"].clip(lower=1))
     out = out.drop(columns=["std_score"])
 
-    # Flag rows whose model has more than one variant — easier to filter in Excel.
+    # Flag rows whose model has more than one variant for filtering in Excel.
     variants_per_model = out.groupby("model_short").size()
     out["has_variants"] = out["model_short"].map(variants_per_model > 1)
 

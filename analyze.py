@@ -3,7 +3,7 @@
 analyze.py — LLM CPE-prediction benchmark analysis & visualisation.
 
 Reads scored model_runs from MongoDB (config via config.toml), generates
-publication-quality PNG plots and a self-contained HTML report.
+PNG plots and a self-contained HTML report.
 
 Usage:
     python analyze.py
@@ -191,7 +191,7 @@ def _regex_size(name: str):
 def _model_size(name: str):
     """Total parameter count in billions. Looks up `name` in model_sizes.json
     first (authoritative, hand-curated for cloud / proprietary / fine-tune
-    models the regex can't parse), falling back to regex parsing on the name."""
+    models the regex cannot parse), falling back to regex parsing on the name."""
     entry = _lookup_size_entry(name)
     if entry is not None:
         return entry.get("total_b")
@@ -200,7 +200,7 @@ def _model_size(name: str):
 
 def _model_active_size(name: str):
     """Active parameter count in billions (smaller than total for MoE).
-    Falls back to total size when active isn't catalogued."""
+    Falls back to total size when active is not catalogued."""
     entry = _lookup_size_entry(name)
     if entry is not None:
         active = entry.get("active_b")
@@ -243,9 +243,9 @@ def _parse_intensity(scan_name: str):
 
 
 def _looks_like_clean_json(raw: str) -> bool:
-    """Heuristic: did the model produce parseable JSON without 'hunting'?
+    """Return whether the model produced a standalone JSON object.
 
-    Conservative — flags the response as needing repair if there's any
+    Flags the response as needing repair if there is any
     text before the first '{' or after the last '}', or if json.loads fails.
     """
     if not raw:
@@ -344,9 +344,9 @@ def build_dataframe(db) -> pd.DataFrame:
     df["best_tier"]   = pd.Categorical(
         df["best_tier"], categories=TIER_ORDER, ordered=True)
 
-    # ── Strategic / derived columns ───────────────────────────────────────
-    # Hallucination: model emitted a CPE, but it didn't even get the vendor right
-    # and the overall score is zero. (predicted_cpe truthy AND vendor_correct=0
+    # ── Derived columns ───────────────────────────────────────────────────
+    # Hallucination: model emitted a CPE with an incorrect vendor and an
+    # overall score of zero. (predicted_cpe truthy AND vendor_correct=0
     # AND match_score=0)
     df["is_hallucination"] = (
         df["predicted_cpe"].fillna("").astype(bool)
@@ -369,7 +369,7 @@ def build_dataframe(db) -> pd.DataFrame:
                           .rename("_baseline_score"))
         df = df.merge(baseline_score, on="scan_id", how="left")
         df["baseline_lift"] = df["match_score"] - df["_baseline_score"]
-        df.loc[baseline_mask, "baseline_lift"] = np.nan  # don't lift vs self
+        df.loc[baseline_mask, "baseline_lift"] = np.nan  # Baseline rows have no lift.
         df = df.drop(columns=["_baseline_score"])
     else:
         df["baseline_lift"] = np.nan
@@ -784,10 +784,10 @@ def plot_trial_variance(df: pd.DataFrame, out: Path) -> str:
     return _save(fig, out / "10_trial_variance.png")
 
 
-# ── New plots: doubling, guided, sampling, hierarchy, density, bias ────────────
+# ── Additional plots: doubling, guided, sampling, hierarchy, density, bias ────
 
 def plot_consistency_delta(df: pd.DataFrame, out: Path) -> str:
-    """Bar: Match Score (Doubled) - (Single) per model. +ve = robust, -ve = fragile."""
+    """Bar: Match Score (Doubled) - (Single) per model."""
     llm = df[df["prompt_name"] != "nmap_baseline"]
     if llm.empty or llm["doubled"].nunique() < 2:
         return ""
@@ -802,7 +802,7 @@ def plot_consistency_delta(df: pd.DataFrame, out: Path) -> str:
     pivot = pivot.sort_values("delta")
 
     fam_map = _model_to_family(llm)
-    # Hue from family, shade by sign — green tint when robust, red tint when fragile
+    # Use family color for non-negative deltas and red for negative deltas.
     bar_colors = []
     for m, d in zip(pivot.index, pivot["delta"]):
         base = FAMILY_COLORS.get(fam_map.get(m, "Other"), GRAY)
@@ -820,7 +820,7 @@ def plot_consistency_delta(df: pd.DataFrame, out: Path) -> str:
     ax.axvline(0, color="#495057", linewidth=1)
     ax.tick_params(axis="y", labelsize=8)
     ax.set_xlabel("Δ Match Score  (Doubled − Single)")
-    ax.set_title("Consistency Delta — Family color when robust, red when fragile")
+    ax.set_title("Consistency Delta — Family color for non-negative values, red for negative")
     _family_legend(ax, _families_present(llm, list(pivot.index)))
     fig.tight_layout()
     return _save(fig, out / "11_consistency_delta.png")
@@ -900,8 +900,8 @@ def plot_guided_vs_unguided(df: pd.DataFrame, out: Path) -> str:
 
 def plot_creativity_penalty(df: pd.DataFrame, out: Path) -> str:
     """Per-model field accuracy (vendor/product) split by guided vs unguided.
-    Reveals whether forcing the regex makes models pick any valid string just to
-    satisfy it, lowering field-level correctness even when match_score doesn't move.
+    Compares whether regex constraints affect field-level correctness even when
+    match_score does not move.
     """
     llm = df[df["prompt_name"] != "nmap_baseline"]
     if llm.empty or llm["guided"].nunique() < 2:
@@ -940,7 +940,7 @@ def plot_creativity_penalty(df: pd.DataFrame, out: Path) -> str:
     ax.set_ylim(0, 1.1)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(1.0))
     ax.set_ylabel("Field Accuracy")
-    ax.set_title("Creativity Penalty — Field Accuracy by Guided/Unguided")
+    ax.set_title("Field Accuracy by Guided/Unguided Decoding")
     ax.legend(fontsize=8, ncol=2, loc="upper right")
     fig.tight_layout()
     return _save(fig, out / "13_creativity_penalty.png")
@@ -1098,14 +1098,14 @@ def plot_payload_vs_score(df: pd.DataFrame, out: Path) -> str:
                     color=mcolors[m], linewidth=2, label=m)
     ax.set_xlabel("Payload size (characters)")
     ax.set_ylabel("Match Score")
-    ax.set_title("Data Density vs Performance — Lost-in-the-Middle?")
+    ax.set_title("Payload Size vs Match Score")
     ax.legend(fontsize=8, loc="upper right", ncol=2)
     fig.tight_layout()
     return _save(fig, out / "17_payload_vs_score.png")
 
 
 def plot_intensity_performance(df: pd.DataFrame, out: Path) -> str:
-    """Mean match_score by scan intensity, lined per model. Bang-for-buck."""
+    """Mean match_score by scan intensity, lined per model."""
     llm = df[df["prompt_name"] != "nmap_baseline"]
     llm = llm[llm["intensity"].notna()]
     if llm.empty or llm["intensity"].nunique() < 2:
@@ -1127,7 +1127,7 @@ def plot_intensity_performance(df: pd.DataFrame, out: Path) -> str:
     ax.set_xlabel("Scan Intensity (parsed from scan_name prefix)")
     ax.set_ylabel("Mean Match Score")
     ax.set_ylim(0, 1.05)
-    ax.set_title("Intensity vs Accuracy — Bang for Buck")
+    ax.set_title("Scan Intensity vs Accuracy")
     ax.legend(fontsize=8, loc="best", ncol=2)
     fig.tight_layout()
     return _save(fig, out / "18_intensity_performance.png")
@@ -1176,7 +1176,7 @@ def plot_baseline_lift(df: pd.DataFrame, out: Path) -> str:
               .sort_values())
 
     fam_map = _model_to_family(llm)
-    # Family color when lifting; red when actually hurting vs baseline
+    # Use family color for positive lift and red for negative lift.
     bar_colors = []
     for m, v in zip(agg.index, agg.values):
         base = FAMILY_COLORS.get(fam_map.get(m, "Other"), GRAY)
@@ -1192,7 +1192,7 @@ def plot_baseline_lift(df: pd.DataFrame, out: Path) -> str:
     ax.axvline(0, color="#495057", linewidth=1)
     ax.tick_params(axis="y", labelsize=8)
     ax.set_xlabel("Mean Match-Score Lift over nmap baseline (per scan)")
-    ax.set_title("Baseline Lift — Where the LLM Actually Helps (red = hurts vs baseline)")
+    ax.set_title("Baseline Lift over nmap Baseline (red = negative lift)")
     _family_legend(ax, _families_present(llm, list(agg.index)))
     fig.tight_layout()
     return _save(fig, out / "20_baseline_lift.png")
@@ -1242,8 +1242,7 @@ def plot_family_summary(df: pd.DataFrame, out: Path) -> str:
 
 
 def plot_metric_correlation(df: pd.DataFrame, out: Path) -> str:
-    """Heatmap of correlation between scoring metrics. Reveals which signals move
-    together (e.g., does CVE-validity track exact_match? does clean JSON predict score?)."""
+    """Heatmap of correlation between scoring metrics."""
     cols = ["match_score", "exact_match", "vendor_correct", "product_correct",
             "version_correct", "cve_valid", "is_hallucination",
             "raw_clean_json", "payload_chars"]
@@ -1538,8 +1537,7 @@ def plot_hallucination_drivers(df: pd.DataFrame, out: Path) -> str:
 
 
 def plot_cloud_vs_local(df: pd.DataFrame, out: Path) -> str:
-    """Per-family comparison of cloud-hosted vs local models. Reveals whether
-    the cheaper local checkpoints are competitive with the larger cloud SKUs."""
+    """Per-family comparison of cloud-hosted vs local models."""
     llm = df[df["prompt_name"] != "nmap_baseline"]
     if llm.empty or llm["is_cloud"].nunique() < 2:
         return ""
@@ -1755,7 +1753,7 @@ def generate_report(summary: dict, model_table: pd.DataFrame,
                     plots: dict, out_dir: Path, ts: str) -> Path:
     cards = []
     spec = [
-        # Existing — Performance & Prompts
+        # Performance and prompts
         ("model_comparison",       "Model Performance — Mean CPE Match Score",      True),
         ("field_accuracy",         "CPE Field Accuracy by Model",                    False),
         ("tier_breakdown",         "Match Tier Distribution by Model",               False),
@@ -1766,24 +1764,24 @@ def generate_report(summary: dict, model_table: pd.DataFrame,
         ("scan_type",              "Performance by Scan Type",                       True),
         ("exact_and_cve",          "Exact Match & CVE Validity Rates",               False),
         ("trial_variance",         "Score Variance Across Trials",                   False),
-        # New — Robustness / Self-correction
-        ("consistency_delta",      "Consistency Delta — Robust vs Fragile Models",   False),
-        # New — Constraint Impact (guided decoding)
+        # Prompt repetition
+        ("consistency_delta",      "Consistency Delta by Model",                     False),
+        # Guided decoding
         ("guided_vs_unguided",     "Guided vs Unguided Decoding + JSON Repair Rate", True),
-        ("creativity_penalty",     "Creativity Penalty — Field Accuracy by Mode",    True),
-        # New — Stochasticity
+        ("creativity_penalty",     "Field Accuracy by Decoding Mode",                True),
+        # Sampling
         ("temperature_sensitivity","Sampling Sensitivity — σ vs Temperature",        False),
-        # New — Hierarchy & hallucination
+        # Hierarchy and hallucination
         ("accuracy_funnel",        "Accuracy Funnel — CPE Hierarchy Drop-off",       False),
         ("hallucination_index",    "Hallucination Index by Model",                   True),
-        # New — Data density
+        # Payload and scan intensity
         ("payload_vs_score",       "Payload Size vs Match Score",                    True),
         ("intensity_performance",  "Intensity vs Accuracy",                          True),
-        # New — Vendor bias
+        # Vendor bias
         ("vendor_bias",            "Vendor Bias — Manufacturer × Model",             True),
-        # New — Strategic
+        # Baseline comparison
         ("baseline_lift",          "Baseline Lift over nmap baseline",               False),
-        # New — Family / cross-cuts
+        # Family and cross-cutting comparisons
         ("family_summary",         "Model Family Summary — boxes + per-model dots",  True),
         ("metric_correlation",     "Metric Correlation Matrix",                      False),
         ("size_scaling",           "Parameter Count vs Match Score",                 True),
@@ -1845,7 +1843,7 @@ def generate_report(summary: dict, model_table: pd.DataFrame,
     return path
 
 
-# ── LLM-readable context document ─────────────────────────────────────────────
+# ── Markdown analysis context document ────────────────────────────────────────
 
 def _fmt_num(v, fmt=".3f"):
     """Format a scalar for the markdown context. Returns '—' for null/NaN.
@@ -1914,8 +1912,7 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
                              model_table: pd.DataFrame,
                              out_dir: Path, ts: str) -> Path:
     """Write a Markdown context document summarising every plot, relationship,
-    and underlying aggregate so a downstream LLM can reason about results
-    without re-querying the raw data."""
+    and underlying aggregate for downstream analysis."""
 
     parts: list[str] = []
     A = parts.append
@@ -1927,8 +1924,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A(f"_Generated {ts}._\n")
     A("This document describes the dataset, every chart in `report.html`, "
       "the relationships between metrics, and the aggregated data underlying "
-      "each plot. It is intended for downstream LLM consumption — concise "
-      "where possible, exhaustive where the raw numbers are useful.\n")
+      "each plot. It provides downstream analysis context without requiring "
+      "another query against the raw data.\n")
 
     A("## 1. Dataset Summary\n")
     A(f"- Models tested: **{summary['n_models']}**")
@@ -1967,13 +1964,13 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
         ("prompt_name",      "Prompt variant. `nmap_baseline` means *no LLM* — raw nmap baseline used as control."),
         ("persona",          "`persona` vs `neutral`, derived from prompt_name."),
         ("structured",       "`structured` vs `minimal`, derived from prompt_name."),
-        ("doubled",          "Double-prompt mode (the model is asked, then prompted to refine its own answer)."),
+        ("doubled",          "Double-prompt mode (the prompt and scan payload are repeated in one user message)."),
         ("trial",            "Trial number for repeated trials of identical conditions (used to estimate sampling variance)."),
         ("temperature",      "Sampling temperature (0.0 = greedy)."),
         ("guided",           "True iff guided / structured decoding (regex-constrained output) was used."),
         ("seed",             "RNG seed if any."),
         ("scan_name",        "Scan recipe name (e.g. `01-sv-osc-top1000`)."),
-        ("intensity",        "Leading integer parsed from `scan_name` — coarse 'how aggressive is the scan' axis."),
+        ("intensity",        "Leading integer parsed from `scan_name`; used as a coarse scan-intensity axis."),
         ("device_code",      "Device identifier."),
         ("manufacturer",     "Device manufacturer."),
         ("payload_chars",    "Length of nmap payload fed to the model (proxy for input density)."),
@@ -1985,7 +1982,7 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
         ("version_correct",  "1 iff version matches expected."),
         ("exact_match",      "1 iff `predicted_cpe` exactly equals an expected CPE string."),
         ("cve_valid",        "1 iff predicted CPE resolves to ≥1 CVE in the lookup."),
-        ("match_score",      "Weighted hierarchical similarity ∈ [0, 1] — primary headline metric."),
+        ("match_score",      "Weighted hierarchical similarity ∈ [0, 1]; primary metric."),
         ("best_tier",        "Categorical: `exact` > `partial` > `related` > `none` (best tier achieved across expected CPEs for this prediction)."),
         ("is_hallucination", "Derived: `predicted_cpe` non-empty AND `vendor_correct=0` AND `match_score=0`."),
         ("precision_gap",    "1 − match_score (how far from exact)."),
@@ -2036,8 +2033,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.1 `01_model_comparison.png` — Model Performance (mean match_score)\n")
     A("**Shows.** Horizontal bar of mean `match_score` per model, ± SEM, "
       "grouped and coloured by family.\n")
-    A("**Why it matters.** The single headline ranking. Read against "
-      "`nmap_baseline` to see if the LLM is adding signal.\n")
+    A("**Interpretation.** Compare this ranking with `nmap_baseline` to measure "
+      "the additional signal from each model.\n")
     mc = (df.groupby("model_short")
             .agg(mean=("match_score", "mean"),
                  sem=("match_score", lambda x: x.std() / np.sqrt(max(len(x), 1))),
@@ -2052,8 +2049,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.2 Field accuracy
     A("### 5.2 `02_field_accuracy.png` — CPE Field Accuracy by Model\n")
     A("**Shows.** Grouped bars of vendor / product / version correctness rates per model.\n")
-    A("**Why it matters.** Decomposes overall score; reveals models that get "
-      "vendor right but invent products, or vice versa.\n")
+    A("**Interpretation.** Separates vendor, product, and version accuracy to "
+      "show where identification errors occur.\n")
     fa = (df.groupby("model_short")
             .agg(Vendor=("vendor_correct", "mean"),
                  Product=("product_correct", "mean"),
@@ -2069,9 +2066,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.3 `03_tier_breakdown.png` — Match Tier Distribution\n")
     A("**Shows.** Stacked horizontal fractions of `best_tier` "
       "(`exact` / `partial` / `related` / `none`) per model.\n")
-    A("**Why it matters.** A model with a similar mean to another might be "
-      "winning on partials while another wins on exacts — very different "
-      "operational profiles.\n")
+    A("**Interpretation.** Distinguishes models with similar means but different "
+      "distributions of exact, partial, related, and unmatched predictions.\n")
     tier_pivot = (df.groupby(["model_short", "best_tier"], observed=True)
                     .size()
                     .unstack(fill_value=0)
@@ -2087,8 +2083,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.4 Score distribution
     A("### 5.4 `04_score_distribution.png` — Score Distribution by Model\n")
     A("**Shows.** Violin + inner box of `match_score` per model.\n")
-    A("**Why it matters.** Mean alone hides bimodality. A model with mean 0.6 "
-      "could be uniformly mediocre or split exact/none — the shape distinguishes them.\n")
+    A("**Interpretation.** The distribution shows whether similar means represent "
+      "uniform scores or a split between exact and unmatched predictions.\n")
     dist = (df.groupby("model_short")["match_score"]
               .agg(mean="mean", std="std",
                    q25=lambda x: x.quantile(0.25),
@@ -2105,9 +2101,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.5 `05_prompt_ablation.png` — Persona × Structure\n")
     A("**Shows.** 2×2 heatmap of mean `match_score` by `persona` and `structured`, "
       "plus per-model lines across the four prompt variants.\n")
-    A("**Why it matters.** Tells you whether persona priming or structured "
-      "format requests help, hurt, or do nothing — and whether the answer "
-      "depends on the model.\n")
+    A("**Interpretation.** Measures the effect of persona priming and structured "
+      "format requests for each model.\n")
     if not llm.empty and llm["persona"].nunique() >= 2 and llm["structured"].nunique() >= 2:
         ab = (llm.groupby(["persona", "structured"])["match_score"]
                  .mean()
@@ -2122,9 +2117,9 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.6 Doubled effect
     A("### 5.6 `06_doubled_effect.png` — Doubled vs Single Prompt\n")
     A("**Shows.** Per-model bars for `doubled=False` (single) and `doubled=True` "
-      "(model asked twice / asked to refine).\n")
-    A("**Why it matters.** Self-correction signal: does asking again help or "
-      "drive over-confident invention?\n")
+      "(prompt and payload repeated in one message).\n")
+    A("**Interpretation.** Measures whether repeating the prompt and payload "
+      "changes prediction accuracy.\n")
     if not llm.empty and llm["doubled"].nunique() >= 2:
         de = (llm.groupby(["model_short", "doubled"])["match_score"]
                 .mean().unstack())
@@ -2141,8 +2136,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.7 Device heatmap
     A("### 5.7 `07_device_heatmap.png` — Device × Model\n")
     A("**Shows.** Heatmap of mean `match_score` for each (device_code, model) cell.\n")
-    A("**Why it matters.** Surfaces device-specific blind spots — e.g. a model "
-      "that does great on routers but fails on cameras.\n")
+    A("**Interpretation.** Identifies device-specific differences in model "
+      "accuracy.\n")
     dh = (df.groupby(["device_code", "model_short"])["match_score"]
             .mean()
             .unstack())
@@ -2159,8 +2154,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.8 Scan type
     A("### 5.8 `08_scan_type.png` — Performance by Scan Type\n")
     A("**Shows.** Grouped bars of mean `match_score` per `scan_name`, split by model.\n")
-    A("**Why it matters.** Different scan recipes expose different amounts of "
-      "data. Some models recover signal from minimal scans; others need rich payloads.\n")
+    A("**Interpretation.** Compares performance as the amount and type of scan "
+      "data vary.\n")
     st = (df.groupby("scan_name")["match_score"]
             .agg(["mean", "count"])
             .sort_values("mean", ascending=False)
@@ -2172,8 +2167,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.9 Exact + CVE
     A("### 5.9 `09_exact_and_cve.png` — Exact-Match & CVE Validity\n")
     A("**Shows.** Per-model bars of `exact_match` rate and `cve_valid` rate.\n")
-    A("**Why it matters.** Exact match is the strict winner; CVE-validity says "
-      "whether the emitted CPE is even a real, lookupable identifier.\n")
+    A("**Interpretation.** Exact match measures identifier agreement; CVE-validity "
+      "measures whether the emitted CPE resolves in the lookup data.\n")
     ec = (df.groupby("model_short")
             .agg(Exact_Rate=("exact_match", "mean"),
                  CVE_Valid=("cve_valid", "mean"))
@@ -2187,8 +2182,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.10 Trial variance
     A("### 5.10 `10_trial_variance.png` — Score Variance Across Trials\n")
     A("**Shows.** Box plot of `match_score` by `trial` (LLM rows only).\n")
-    A("**Why it matters.** High variance across trials of identical conditions "
-      "= sampling noise dominates; means are not trustworthy with few trials.\n")
+    A("**Interpretation.** High variance across identical conditions indicates "
+      "that more trials may be required for stable estimates.\n")
     if not llm.empty and llm["trial"].nunique() >= 2:
         tv = (llm.groupby("trial")["match_score"]
                 .agg(["mean", "std", "count"])
@@ -2203,8 +2198,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.11 Consistency delta
     A("### 5.11 `11_consistency_delta.png` — Consistency Delta\n")
     A("**Shows.** Per-model Δ = mean(match_score | doubled) − mean(match_score | single).\n")
-    A("**Why it matters.** Robust models converge under refinement (Δ ≥ 0); "
-      "fragile ones drift further from the answer when prompted again (Δ < 0).\n")
+    A("**Interpretation.** Positive deltas indicate higher scores with repeated "
+      "input; negative deltas indicate lower scores.\n")
     if not llm.empty and llm["doubled"].nunique() >= 2:
         cd = (llm.groupby(["model_short", "doubled"])["match_score"]
                 .mean().unstack())
@@ -2221,9 +2216,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.12 `12_guided_vs_unguided.png` — Guided vs Unguided + JSON Repair\n")
     A("**Shows.** Per-model match_score for guided vs unguided decoding, and "
       "a side panel of the fraction of unguided runs that required JSON repair.\n")
-    A("**Why it matters.** Guided decoding (regex constraint) trades some "
-      "expressivity for a 100% format-valid output. Repair rate is a proxy "
-      "for raw format-compliance.\n")
+    A("**Interpretation.** Compares the accuracy and format-compliance effects "
+      "of regex-constrained decoding. Repair rate measures raw format compliance.\n")
     if not llm.empty and llm["guided"].nunique() >= 2:
         gu = (llm.groupby(["model_short", "guided"])["match_score"]
                 .mean().unstack())
@@ -2248,9 +2242,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.13 Creativity penalty
     A("### 5.13 `13_creativity_penalty.png` — Field Accuracy by Guided/Unguided\n")
     A("**Shows.** Per-model vendor and product accuracy, split by guided/unguided.\n")
-    A("**Why it matters.** Forcing the regex can make a model emit *any* "
-      "regex-valid string just to comply, dropping field correctness even if "
-      "the headline match_score barely moves.\n")
+    A("**Interpretation.** Compares vendor and product accuracy to detect changes "
+      "that may not be visible in aggregate `match_score`.\n")
     if not llm.empty and llm["guided"].nunique() >= 2:
         cp = (llm.groupby(["model_short", "guided"])
                 .agg(Vendor=("vendor_correct", "mean"),
@@ -2269,8 +2262,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.14 `14_temperature_sensitivity.png` — σ vs Temperature\n")
     A("**Shows.** Mean within-condition standard deviation of `match_score` "
       "across repeated trials, lined per model, x = `temperature`.\n")
-    A("**Why it matters.** Reveals which models are robust to sampling noise "
-      "and which become unpredictable as temperature rises.\n")
+    A("**Interpretation.** Measures how within-condition variance changes as "
+      "temperature rises.\n")
     if not llm.empty and llm["temperature"].nunique() >= 2:
         grp = (llm.groupby(["model_short", "temperature", "scan_id", "prompt_name"])
                   ["match_score"]
@@ -2295,9 +2288,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.15 Accuracy funnel
     A("### 5.15 `15_accuracy_funnel.png` — CPE Hierarchy Drop-off\n")
     A("**Shows.** Per-model line over [Part → Vendor → Product → Version] accuracy.\n")
-    A("**Why it matters.** Where the funnel breaks tells you what the model "
-      "actually knows: vendor without product = surface familiarity; product "
-      "without version = approximate identification.\n")
+    A("**Interpretation.** Shows the field at which identification accuracy "
+      "decreases across the CPE hierarchy.\n")
     if not llm.empty:
         af = (llm.groupby("model_short")
                 .agg(Part=("part_correct", "mean"),
@@ -2315,8 +2307,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.16 `16_hallucination_index.png` — Hallucination Index\n")
     A("**Shows.** Per-model bars: total hallucination rate (CPE emitted, vendor "
       "wrong, score=0) and a hatched overlay for vendor-right-product-invented.\n")
-    A("**Why it matters.** Hallucination is the failure mode that breaks "
-      "downstream automation — a confidently wrong CPE poisons CVE lookups.\n")
+    A("**Interpretation.** Incorrect CPEs can produce invalid downstream CVE "
+      "lookups; lower rates are preferable.\n")
     if not llm.empty:
         has_pred = llm["predicted_cpe"].fillna("").astype(bool)
         vendor_only = (has_pred & (llm["vendor_correct"] == 1)
@@ -2336,8 +2328,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.17 `17_payload_vs_score.png` — Payload Size vs Match Score\n")
     A("**Shows.** Scatter of `payload_chars` vs `match_score`, per-model linear "
       "trend lines.\n")
-    A("**Why it matters.** Tests the 'lost-in-the-middle' hypothesis: do longer "
-      "nmap payloads degrade extraction? Slope sign per model is the takeaway.\n")
+    A("**Interpretation.** Tests whether longer nmap payloads are associated "
+      "with lower match scores. The slope sign is reported per model.\n")
     if not llm.empty and llm["payload_chars"].nunique() >= 3:
         rows = []
         for m, sub in llm.groupby("model_short"):
@@ -2358,8 +2350,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.18 Intensity performance
     A("### 5.18 `18_intensity_performance.png` — Intensity vs Accuracy\n")
     A("**Shows.** Mean `match_score` per scan `intensity`, lined per model.\n")
-    A("**Why it matters.** Higher-intensity scans take more time/risk. If "
-      "accuracy plateaus past intensity N, the extra cost yields no signal.\n")
+    A("**Interpretation.** Compares accuracy gains with the additional time and "
+      "network activity required by higher-intensity scans.\n")
     if not llm.empty and llm["intensity"].notna().sum() > 0 and llm["intensity"].nunique() >= 2:
         ip = (llm.groupby(["model_short", "intensity"])["match_score"]
                 .mean()
@@ -2376,8 +2368,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     # 5.19 Vendor bias
     A("### 5.19 `19_vendor_bias.png` — Manufacturer × Model\n")
     A("**Shows.** Heatmap of mean `match_score` for each (manufacturer, model) cell.\n")
-    A("**Why it matters.** Some models are specialists for given vendors "
-      "(training-data exposure); others are uniform generalists.\n")
+    A("**Interpretation.** Identifies manufacturer-specific differences in "
+      "model accuracy.\n")
     if not llm.empty and llm["manufacturer"].nunique() >= 2:
         vb = (llm.groupby(["manufacturer", "model_short"])["match_score"]
                 .mean().unstack())
@@ -2400,8 +2392,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.20 `20_baseline_lift.png` — Lift over nmap baseline\n")
     A("**Shows.** Per-model mean of `baseline_lift` (per-scan match_score minus "
       "the mean nmap_baseline match_score for the same scan).\n")
-    A("**Why it matters.** This is the only fair 'is the LLM helping?' metric. "
-      "Negative bars = the LLM is making things *worse* than raw nmap output.\n")
+    A("**Interpretation.** Positive values exceed the raw nmap baseline for the "
+      "same scans; negative values fall below it.\n")
     bl = (llm[llm["baseline_lift"].notna()]
             .groupby("model_short")["baseline_lift"]
             .mean()
@@ -2420,9 +2412,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.21 `21_family_summary.png` — Family Box + per-model dots\n")
     A("**Shows.** Boxplot of per-model means within each family, with each "
       "individual model overlaid as a dot.\n")
-    A("**Why it matters.** Compresses 25+ models into ~10 family groups while "
-      "keeping within-family spread visible. Lets you ask 'is the family good "
-      "on average, or just one outlier?'\n")
+    A("**Interpretation.** Summarizes family-level performance while retaining "
+      "the within-family spread across individual models.\n")
     if not llm.empty and llm["model_family"].nunique() >= 2:
         per_model = (llm.groupby(["model_family", "model_short"])["match_score"]
                        .mean()
@@ -2442,8 +2433,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("**Shows.** Pearson correlation heatmap among match_score, exact_match, "
       "vendor/product/version, cve_valid, is_hallucination, raw_clean_json, "
       "and payload_chars.\n")
-    A("**Why it matters.** Reveals redundant metrics and surprising "
-      "non-correlations (e.g. clean JSON ≠ correct CPE).\n")
+    A("**Interpretation.** Identifies metrics that move together and metrics "
+      "that capture distinct behavior.\n")
     cols = ["match_score", "exact_match", "vendor_correct", "product_correct",
             "version_correct", "cve_valid", "is_hallucination",
             "raw_clean_json", "payload_chars"]
@@ -2454,7 +2445,7 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
         cm = corr.reset_index().rename(columns={"index": "metric"})
         A(_df_to_md(cm, fmts={"metric": "s",
                                **{c: "+.2f" for c in corr.columns}}))
-        # Surface the strongest pairs
+        # List the strongest pairs.
         pairs = []
         for i, a_ in enumerate(corr.columns):
             for j, b_ in enumerate(corr.columns):
@@ -2471,9 +2462,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.23 `23_size_scaling.png` — Parameter Count vs Score\n")
     A("**Shows.** Scatter of `model_size_b` (log-x) vs mean `match_score`, with "
       "log-linear fit and per-family colours.\n")
-    A("**Why it matters.** Tests whether scale predicts CPE accuracy on this "
-      "task. A flat slope means task expertise > size; a steep slope means "
-      "size is what's missing.\n")
+    A("**Interpretation.** Tests whether parameter count is associated with CPE "
+      "accuracy for this dataset.\n")
     if not llm.empty:
         per = (llm.groupby(["model_short", "model_family"])
                   .agg(Score=("match_score", "mean"),
@@ -2497,8 +2487,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.24 `24_hallucination_drivers.png` — Hallucination Drivers\n")
     A("**Shows.** 2×2 grid of family-level hallucination rate vs guided, doubled, "
       "temperature, and payload-size quintile.\n")
-    A("**Why it matters.** Pinpoints which experimental knobs reduce or amplify "
-      "the failure mode. Answer to 'what should I turn on/off in production?'\n")
+    A("**Interpretation.** Compares hallucination rates across the experimental "
+      "settings.\n")
     if not llm.empty:
         if llm["guided"].nunique() >= 2:
             gh = (llm.groupby(["model_family", "guided"])["is_hallucination"]
@@ -2529,8 +2519,8 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
     A("### 5.25 `25_cloud_vs_local.png` — Cloud vs Local per Family\n")
     A("**Shows.** For each family, mean match_score and hallucination rate "
       "split by cloud vs local hosting.\n")
-    A("**Why it matters.** Tells you whether the cheap local checkpoint is "
-      "competitive with the larger cloud SKU for this task.\n")
+    A("**Interpretation.** Compares local and cloud-hosted model performance "
+      "within each family.\n")
     if not llm.empty and llm["is_cloud"].nunique() >= 2:
         cv = (llm.groupby(["model_family", "is_cloud"])
                 .agg(Score=("match_score", "mean"),
@@ -2602,15 +2592,14 @@ def generate_llm_context_doc(df: pd.DataFrame, summary: dict,
       "for the same scan_id. Positive = the LLM helped on that scan.")
     A("- **guided decoding** — output is regex-constrained to the CPE shape; "
       "trades expressivity for guaranteed format compliance.")
-    A("- **doubled prompt** — the model is prompted, shown its own answer, "
-      "and prompted again to refine. Tests self-consistency.")
+    A("- **doubled prompt** — the prompt and scan payload are repeated in one "
+      "user message.")
     A("- **persona vs neutral** — whether the prompt opens with role-play "
       "framing (`You are an expert security analyst…`) or a flat instruction.")
     A("- **structured vs minimal** — whether the prompt asks for a fielded "
       "JSON object or a free-form CPE string.")
     A("- **hallucination** — model emits a CPE, gets the vendor wrong, and "
-      "scores 0. Confidently wrong, the worst failure mode for downstream "
-      "CVE lookups.")
+      "scores 0. These predictions can invalidate downstream CVE lookups.")
     A("- **clean JSON** — `raw_output` parses without any repair pass; a "
       "purely format-compliance signal.")
     A("- **intensity** — leading integer parsed from `scan_name`; "

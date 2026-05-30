@@ -190,7 +190,7 @@ def main():
     db = get_db()
 
     if args.all:
-        # Scans that don't yet have an 'nmap' baseline
+        # Scans without an 'nmap' baseline
         have_baseline = set(
             doc["scan_id"] for doc in db.model_runs.find(
                 {"model.name": BASELINE_MODEL_NAME}, {"scan_id": 1}
